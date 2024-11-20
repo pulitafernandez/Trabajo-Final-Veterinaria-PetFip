@@ -46,7 +46,8 @@ export class Menu {
         console.log("2. Eliminar Veterinaria");
         console.log("3. Modificar Veterinaria");
         console.log("4. Ver todas las veterinarias");
-        console.log("5. Volver al menú principal");
+        console.log("5. Seleccionar una veterinaria");
+        console.log("6. Volver al menú principal");
         this.rl.question("\nIngrese su opción: ", (opcion: string) => {
             switch (opcion) {
                 case "1":
@@ -62,6 +63,9 @@ export class Menu {
                     this.imprimirListaVeterinarias();
                     break;
                 case "5":
+                    this.verVeterinariaTal();
+                    return;
+                case "6":
                     this.mostrarMenuPrincipal();
                     return;
                 default:
@@ -142,6 +146,34 @@ private agregarVeterinaria(): void {
             veterinarias.forEach((veterinaria) => console.log(veterinaria.getDatosVeterinaria()));
         }
         this.mostrarMenuVeterinarias();
+    }
+
+    
+    // Función para imprimir la lista de veterinarias
+    private verVeterinariaTal(): void {
+
+        this.rl.question("Ingresa el ID de la veterinaria: ", (input) => {
+            const id = parseInt(input);  // Convertimos la entrada a un número
+            if (isNaN(id)) {
+              console.log("El ID debe ser un número válido.");
+              this.verVeterinariaTal();  // Volver a pedir el ID si no es válido
+            } else {
+              const veterinaria = this.getVeterinariaPorId(id);
+              if (veterinaria) {
+                console.log("Veterinaria encontrada:");
+                veterinaria.getDatosVeterinaria();
+              } else {
+                console.log("No se encontró una veterinaria con ese ID.");
+              }
+              this.rl.close();  // Cerramos la interfaz de readline
+            }
+          });
+
+    }
+
+    public getVeterinariaPorId(id: number): Veterinaria | undefined {
+        const veterinarias: Veterinaria[] = this.redVet1.getVeterinarias();
+        return veterinarias.find(veterinaria => veterinaria.getIdVeterinaria() === id);
     }
 
     // Menú de Proveedores
