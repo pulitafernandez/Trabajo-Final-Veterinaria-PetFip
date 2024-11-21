@@ -149,26 +149,32 @@ private agregarVeterinaria(): void {
     }
 
     
-    // Función para imprimir la lista de veterinarias
+    // Función para trabajar con una veterinaria por ID
     private verVeterinariaTal(): void {
-
         this.rl.question("Ingresa el ID de la veterinaria: ", (input) => {
-            const id = parseInt(input);  // Convertimos la entrada a un número
+            const id = parseInt(input);  // Convertir la entrada a un número
             if (isNaN(id)) {
-              console.log("El ID debe ser un número válido.");
-              this.verVeterinariaTal();  // Volver a pedir el ID si no es válido
+                console.log("El ID debe ser un número válido.");
+                this.verVeterinariaTal();  // Volver a pedir el ID si no es válido
             } else {
-              const veterinaria = this.getVeterinariaPorId(id);
-              if (veterinaria) {
-                console.log("Veterinaria encontrada:");
-                veterinaria.getDatosVeterinaria();
-              } else {
-                console.log("No se encontró una veterinaria con ese ID.");
-              }
-              this.rl.close();  // Cerramos la interfaz de readline
+        const veterinaria = this.getVeterinariaPorId(id);
+                if (veterinaria) {
+                    console.log("Veterinaria encontrada:");
+                    console.log(veterinaria.getDatosVeterinaria());
+                    this.mostrarMenuVeterinarias(); 
+                } else {
+                    console.log("No se ha encontrado una veterinaria con ese ID.");
+                    this.rl.question('¿Quiere agregar otro id de veterinaria? en caso de salir presione n (s/n)', (respuesta) => {
+                        if (respuesta.toLowerCase() === 's') {
+                            this.verVeterinariaTal();
+                        } else {
+                            console.log("Volver a menu veterinaria");
+                            this.mostrarMenuVeterinarias();
+                        }
+                    });
+                }
             }
-          });
-
+        });
     }
 
     public getVeterinariaPorId(id: number): Veterinaria | undefined {

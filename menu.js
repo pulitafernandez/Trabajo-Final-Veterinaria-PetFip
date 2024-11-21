@@ -48,7 +48,8 @@ var Menu = /** @class */ (function () {
         console.log("2. Eliminar Veterinaria");
         console.log("3. Modificar Veterinaria");
         console.log("4. Ver todas las veterinarias");
-        console.log("5. Volver al menú principal");
+        console.log("5. Seleccionar una veterinaria");
+        console.log("6. Volver al menú principal");
         this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
@@ -64,6 +65,9 @@ var Menu = /** @class */ (function () {
                     _this.imprimirListaVeterinarias();
                     break;
                 case "5":
+                    _this.verVeterinariaTal();
+                    return;
+                case "6":
                     _this.mostrarMenuPrincipal();
                     return;
                 default:
@@ -145,6 +149,41 @@ var Menu = /** @class */ (function () {
             veterinarias.forEach(function (veterinaria) { return console.log(veterinaria.getDatosVeterinaria()); });
         }
         this.mostrarMenuVeterinarias();
+    };
+    // Función para trabajar con una veterinaria por ID
+    Menu.prototype.verVeterinariaTal = function () {
+        var _this = this;
+        this.rl.question("Ingresa el ID de la veterinaria: ", function (input) {
+            var id = parseInt(input); // Convertir la entrada a un número
+            if (isNaN(id)) {
+                console.log("El ID debe ser un número válido.");
+                _this.verVeterinariaTal(); // Volver a pedir el ID si no es válido
+            }
+            else {
+                var veterinaria = _this.getVeterinariaPorId(id);
+                if (veterinaria) {
+                    console.log("Veterinaria encontrada:");
+                    console.log(veterinaria.getDatosVeterinaria());
+                    _this.mostrarMenuVeterinarias();
+                }
+                else {
+                    console.log("No se ha encontrado una veterinaria con ese ID. Introduzca un ID correcto o vuelva al menu principal");
+                    _this.rl.question('¿Quiere agregar otro id de veterinaria? en caso de salir presione n (s/n)', function (respuesta) {
+                        if (respuesta.toLowerCase() === 's') {
+                            _this.verVeterinariaTal();
+                        }
+                        else {
+                            console.log("Volver a menu veterinaria");
+                            _this.mostrarMenuVeterinarias();
+                        }
+                    });
+                }
+            }
+        });
+    };
+    Menu.prototype.getVeterinariaPorId = function (id) {
+        var veterinarias = this.redVet1.getVeterinarias();
+        return veterinarias.find(function (veterinaria) { return veterinaria.getIdVeterinaria() === id; });
     };
     // Menú de Proveedores
     Menu.prototype.mostrarMenuProveedores = function () {
