@@ -161,7 +161,7 @@ private agregarVeterinaria(): void {
                 if (veterinaria) {
                     console.log("Veterinaria encontrada:");
                     console.log(veterinaria.getDatosVeterinaria());
-                    this.mostrarMenuVeterinarias(); 
+                    //this.mostrarMenuVeterinarias(); aca tenemos que crear un menu de clientes
                 } else {
                     console.log("No se ha encontrado una veterinaria con ese ID.");
                     this.rl.question('¿Quiere agregar otro id de veterinaria? en caso de salir presione n (s/n)', (respuesta) => {
