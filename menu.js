@@ -1,37 +1,14 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Menu = void 0;
-const readline = __importStar(require("readline"));
-const Veterinaria_1 = require("./Veterinaria");
-const RedVeterinaria_1 = require("./RedVeterinaria");
-const Proveedor_1 = require("./Proveedor");
-const Cliente_1 = require("./Cliente");
-const Paciente_1 = require("./Paciente");
-class Menu {
-    constructor() {
+var readline = require("readline");
+var Veterinaria_1 = require("./Veterinaria");
+var RedVeterinaria_1 = require("./RedVeterinaria");
+var Proveedor_1 = require("./Proveedor");
+var Cliente_1 = require("./Cliente");
+var Paciente_1 = require("./Paciente");
+var Menu = /** @class */ (function () {
+    function Menu() {
         this.rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
@@ -39,34 +16,36 @@ class Menu {
         this.redVet1 = new RedVeterinaria_1.RedVeterinaria();
         this.clientes = [];
     }
-    iniciar() {
+    Menu.prototype.iniciar = function () {
         this.mostrarMenuPrincipal();
-    }
-    mostrarMenuPrincipal() {
+    };
+    Menu.prototype.mostrarMenuPrincipal = function () {
+        var _this = this;
         console.log("\n Bienvenido a la red de Veterinarias PetFip");
         console.log("1. Menú de Veterinarias");
         console.log("2. Menú de Proveedores");
         console.log("3. Salir");
-        this.rl.question("\nIngrese su opción: ", (opcion) => {
+        this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
-                    this.mostrarMenuVeterinarias();
+                    _this.mostrarMenuVeterinarias();
                     break;
                 case "2":
-                    this.mostrarMenuProveedores();
+                    _this.mostrarMenuProveedores();
                     break;
                 case "3":
                     console.log("Hasta la proxima!");
-                    this.rl.close();
+                    _this.rl.close();
                     break;
                 default:
                     console.log("Opción inválida. Intente nuevamente.");
-                    this.mostrarMenuPrincipal();
+                    _this.mostrarMenuPrincipal();
             }
         });
-    }
+    };
     // Menú de Veterinarias
-    mostrarMenuVeterinarias() {
+    Menu.prototype.mostrarMenuVeterinarias = function () {
+        var _this = this;
         console.log("\nMenú Veterinarias");
         console.log("1. Agregar Veterinaria");
         console.log("2. Eliminar Veterinaria");
@@ -74,161 +53,167 @@ class Menu {
         console.log("4. Ver todas las veterinarias");
         console.log("5. Seleccionar una veterinaria");
         console.log("6. Volver al menú principal");
-        this.rl.question("\nIngrese su opción: ", (opcion) => {
+        this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
-                    this.agregarVeterinaria();
+                    _this.agregarVeterinaria();
                     break;
                 case "2":
-                    this.eliminarVeterinaria();
+                    _this.eliminarVeterinaria();
                     break;
                 case "3":
-                    this.modificarVeterinaria();
+                    _this.modificarVeterinaria();
                     break;
                 case "4":
-                    this.imprimirListaVeterinarias();
+                    _this.imprimirListaVeterinarias();
                     break;
                 case "5":
-                    this.seleccionarveterinaria();
+                    _this.seleccionarveterinaria();
                     return;
                 case "6":
-                    this.mostrarMenuPrincipal();
+                    _this.mostrarMenuPrincipal();
                     return;
                 default:
                     console.log("Opción inválida. Intente nuevamente.");
-                    this.mostrarMenuVeterinarias();
+                    _this.mostrarMenuVeterinarias();
             }
         });
-    }
+    };
     // Función para agregar una veterinaria
-    agregarVeterinaria() {
-        this.rl.question('Ingrese el nombre de la veterinaria: ', (nombreVet) => {
-            this.rl.question('Ingrese la dirección de la veterinaria: ', (direccionVet) => {
-                const veterinaria1 = new Veterinaria_1.Veterinaria(nombreVet, direccionVet);
-                this.redVet1.agregarVeterinaria(veterinaria1);
+    Menu.prototype.agregarVeterinaria = function () {
+        var _this = this;
+        this.rl.question('Ingrese el nombre de la veterinaria: ', function (nombreVet) {
+            _this.rl.question('Ingrese la dirección de la veterinaria: ', function (direccionVet) {
+                var veterinaria1 = new Veterinaria_1.Veterinaria(nombreVet, direccionVet);
+                _this.redVet1.agregarVeterinaria(veterinaria1);
                 console.log("Veterinaria agregada:\n" + veterinaria1.getDatosVeterinaria());
-                this.mostrarMenuVeterinarias();
+                _this.mostrarMenuVeterinarias();
             });
         });
-    }
+    };
     // Función para eliminar una veterinaria
-    eliminarVeterinaria() {
-        const veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a eliminar: ', (nombreVet) => {
-            const index = veterinarias.findIndex((vet) => vet.getNombreVeterinaria() === nombreVet);
+    Menu.prototype.eliminarVeterinaria = function () {
+        var _this = this;
+        var veterinarias = this.redVet1.getVeterinarias();
+        this.rl.question('Ingrese nombre de la veterinaria a eliminar: ', function (nombreVet) {
+            var index = veterinarias.findIndex(function (vet) { return vet.getNombreVeterinaria() === nombreVet; });
             if (index !== -1) {
-                this.rl.question('¿Está seguro de eliminar la veterinaria? (s/n)', (respuesta) => {
+                _this.rl.question('¿Está seguro de eliminar la veterinaria? (s/n)', function (respuesta) {
                     if (respuesta.toLowerCase() === 's') {
                         veterinarias.splice(index, 1);
                         console.log("Veterinaria Eliminada");
-                        this.redVet1.actualizarVeterinarias(veterinarias);
-                        this.mostrarMenuVeterinarias();
+                        _this.redVet1.actualizarVeterinarias(veterinarias);
+                        _this.mostrarMenuVeterinarias();
                     }
                     else {
                         console.log("Operación cancelada");
-                        this.mostrarMenuVeterinarias();
+                        _this.mostrarMenuVeterinarias();
                     }
                 });
             }
             else {
                 console.log("Veterinaria no encontrada");
-                this.mostrarMenuVeterinarias();
+                _this.mostrarMenuVeterinarias();
             }
         });
-    }
+    };
     // Función para modificar una veterinaria
-    modificarVeterinaria() {
-        const veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a modificar: ', (nombreVet) => {
-            const index = veterinarias.findIndex((vet) => vet.getNombreVeterinaria() === nombreVet);
+    Menu.prototype.modificarVeterinaria = function () {
+        var _this = this;
+        var veterinarias = this.redVet1.getVeterinarias();
+        this.rl.question('Ingrese nombre de la veterinaria a modificar: ', function (nombreVet) {
+            var index = veterinarias.findIndex(function (vet) { return vet.getNombreVeterinaria() === nombreVet; });
             if (index !== -1) {
-                this.rl.question('Ingrese nuevo nombre de la veterinaria: ', (nombreVet1) => {
-                    this.rl.question('Ingrese Nueva Direccion Veterinaria: ', (direccionVet1) => {
+                _this.rl.question('Ingrese nuevo nombre de la veterinaria: ', function (nombreVet1) {
+                    _this.rl.question('Ingrese Nueva Direccion Veterinaria: ', function (direccionVet1) {
                         veterinarias[index].setNombreVeterinaria(nombreVet1);
                         veterinarias[index].setDireccion(direccionVet1);
-                        this.redVet1.actualizarVeterinarias(veterinarias);
+                        _this.redVet1.actualizarVeterinarias(veterinarias);
                         console.log("Veterinaria modificada");
-                        veterinarias.forEach((vet) => console.log(vet.getDatosVeterinaria()));
-                        this.mostrarMenuVeterinarias();
+                        veterinarias.forEach(function (vet) { return console.log(vet.getDatosVeterinaria()); });
+                        _this.mostrarMenuVeterinarias();
                     });
                 });
             }
             else {
                 console.log("Veterinaria no encontrada");
-                this.mostrarMenuVeterinarias();
+                _this.mostrarMenuVeterinarias();
             }
         });
-    }
+    };
     // Función para imprimir la lista de veterinarias
-    imprimirListaVeterinarias() {
-        const veterinarias = this.redVet1.getVeterinarias();
+    Menu.prototype.imprimirListaVeterinarias = function () {
+        var veterinarias = this.redVet1.getVeterinarias();
         if (veterinarias.length === 0) {
             console.log('No hay veterinarias agregadas');
         }
         else {
-            veterinarias.forEach((veterinaria) => console.log(veterinaria.getDatosVeterinaria()));
+            veterinarias.forEach(function (veterinaria) { return console.log(veterinaria.getDatosVeterinaria()); });
         }
         this.mostrarMenuVeterinarias();
-    }
+    };
     // Función para obtener un cliente por su ID
-    obtenerClientePorId(id) {
-        return this.clientes.find(cliente => cliente.getIdCliente() === id) || null;
-    }
+    Menu.prototype.obtenerClientePorId = function (id) {
+        return this.clientes.find(function (cliente) { return cliente.getIdCliente() === id; }) || null;
+    };
     // Función para trabajar con una veterinaria por ID
-    seleccionarveterinaria() {
-        this.rl.question("Ingresa el ID de la veterinaria: ", (input) => {
-            const id = parseInt(input);
+    Menu.prototype.seleccionarveterinaria = function () {
+        var _this = this;
+        this.rl.question("Ingresa el ID de la veterinaria: ", function (input) {
+            var id = parseInt(input);
             if (isNaN(id)) {
                 console.log("El ID debe ser un número válido.");
-                this.seleccionarveterinaria();
+                _this.seleccionarveterinaria();
             }
             else {
-                const veterinaria = this.getVeterinariaPorId(id);
+                var veterinaria = _this.getVeterinariaPorId(id);
                 if (veterinaria) {
                     console.log("Veterinaria encontrada:");
                     console.log(veterinaria.getDatosVeterinaria());
-                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+                    _this.mostrarMenuVeterinariaSeleccionada(veterinaria);
                 }
                 else {
                     console.log("No se ha encontrado una veterinaria con ese ID.");
-                    this.rl.question('¿Quiere agregar otro id de veterinaria? En caso de salir presione n (s/n)', (respuesta) => {
+                    _this.rl.question('¿Quiere agregar otro id de veterinaria? En caso de salir presione n (s/n)', function (respuesta) {
                         if (respuesta.toLowerCase() === 's') {
-                            this.seleccionarveterinaria();
+                            _this.seleccionarveterinaria();
                         }
                         else {
                             console.log("Volver a menú veterinaria");
-                            this.mostrarMenuVeterinarias();
+                            _this.mostrarMenuVeterinarias();
                         }
                     });
                 }
             }
         });
-    }
+    };
     // Menú de opciones al seleccionar una veterinaria
-    mostrarMenuVeterinariaSeleccionada(veterinaria) {
+    Menu.prototype.mostrarMenuVeterinariaSeleccionada = function (veterinaria) {
+        var _this = this;
         console.log("\nMenú de Veterinaria seleccionada");
         console.log("1. Gestionar Clientes");
         console.log("2. Gestionar Pacientes");
         console.log("3. Volver al menú anterior");
-        this.rl.question("\nIngrese su opción: ", (opcion) => {
+        this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
-                    this.gestionarClientes(veterinaria);
+                    _this.gestionarClientes(veterinaria);
                     break;
                 case "2":
-                    this.gestionarPacientes(veterinaria);
+                    _this.gestionarPacientes(veterinaria);
                     break;
                 case "3":
-                    this.mostrarMenuVeterinarias();
+                    _this.mostrarMenuVeterinarias();
                     break;
                 default:
                     console.log("Opción inválida.");
-                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+                    _this.mostrarMenuVeterinariaSeleccionada(veterinaria);
             }
         });
-    }
+    };
     // Función para gestionar clientes
-    gestionarClientes(veterinaria) {
+    Menu.prototype.gestionarClientes = function (veterinaria) {
+        var _this = this;
         console.log("\nMenú de Clientes");
         console.log("1. Agregar Cliente");
         console.log("2. Eliminar Cliente");
@@ -236,292 +221,304 @@ class Menu {
         console.log("4. Ver todos los Clientes");
         console.log("5. Registrar nueva visita");
         console.log("6. Volver al menú de Veterinaria");
-        this.rl.question("\nIngrese su opción: ", (opcion) => {
+        this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
-                    this.agregarCliente(veterinaria);
+                    _this.agregarCliente(veterinaria);
                     break;
                 case "2":
-                    this.eliminarCliente(veterinaria);
+                    _this.eliminarCliente(veterinaria);
                     break;
                 case "3":
-                    this.modificarCliente(veterinaria);
+                    _this.modificarCliente(veterinaria);
                     break;
                 case "4":
-                    this.verClientes(veterinaria);
+                    _this.verClientes(veterinaria);
                     break;
                 case "5":
-                    this.registrarNuevaVisita(veterinaria);
+                    _this.registrarNuevaVisita(veterinaria);
                     break;
                 case "6":
-                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+                    _this.mostrarMenuVeterinariaSeleccionada(veterinaria);
                     break;
                 default:
                     console.log("Opción inválida.");
-                    this.gestionarClientes(veterinaria);
+                    _this.gestionarClientes(veterinaria);
             }
         });
-    }
+    };
     // Función para agregar un cliente
-    agregarCliente(veterinaria) {
-        this.rl.question('Ingrese nombre del cliente: ', (nombreCliente) => {
-            this.rl.question('Ingrese teléfono del cliente: ', (telefonoCliente) => {
-                const idCliente = Cliente_1.Cliente.generarIdUnico();
-                const cliente = new Cliente_1.Cliente(idCliente, nombreCliente, Number(telefonoCliente));
+    Menu.prototype.agregarCliente = function (veterinaria) {
+        var _this = this;
+        this.rl.question('Ingrese nombre del cliente: ', function (nombreCliente) {
+            _this.rl.question('Ingrese teléfono del cliente: ', function (telefonoCliente) {
+                var idCliente = Cliente_1.Cliente.generarIdUnico();
+                var cliente = new Cliente_1.Cliente(idCliente, nombreCliente, Number(telefonoCliente));
                 veterinaria.agregarCliente(cliente);
                 console.log("Cliente agregado: " + cliente.getDatosCliente());
-                this.gestionarClientes(veterinaria);
+                _this.gestionarClientes(veterinaria);
             });
         });
-    }
+    };
     // Función para eliminar un cliente
-    eliminarCliente(veterinaria) {
-        this.rl.question('Ingrese nombre del cliente a eliminar: ', (nombreCliente) => {
-            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+    Menu.prototype.eliminarCliente = function (veterinaria) {
+        var _this = this;
+        this.rl.question('Ingrese el id del cliente a eliminar: ', function (idCliente) {
+            var cliente = veterinaria.obtenerClientePorId(Number(idCliente));
             if (cliente) {
                 veterinaria.eliminarCliente(cliente);
                 console.log("Cliente eliminado.");
-                this.gestionarClientes(veterinaria);
+                _this.gestionarClientes(veterinaria);
             }
             else {
                 console.log("Cliente no encontrado.");
-                this.gestionarClientes(veterinaria);
+                _this.gestionarClientes(veterinaria);
             }
         });
-    }
+    };
     // Función para modificar un cliente
-    modificarCliente(veterinaria) {
-        this.rl.question('Ingrese nombre del cliente a modificar: ', (nombreCliente) => {
-            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+    Menu.prototype.modificarCliente = function (veterinaria) {
+        var _this = this;
+        this.rl.question('Ingrese el id del cliente a modificar: ', function (idCliente) {
+            var cliente = veterinaria.obtenerClientePorId(Number(idCliente));
             if (cliente) {
-                this.rl.question('Ingrese nuevo nombre del cliente: ', (nuevoNombre) => {
-                    this.rl.question('Ingrese nuevo teléfono del cliente: ', (nuevoTelefono) => {
-                        const telefonoNumero = parseInt(nuevoTelefono);
+                _this.rl.question('Ingrese nuevo nombre del cliente: ', function (nuevoNombre) {
+                    _this.rl.question('Ingrese nuevo teléfono del cliente: ', function (nuevoTelefono) {
+                        var telefonoNumero = parseInt(nuevoTelefono);
                         if (isNaN(telefonoNumero)) {
                             console.log("El teléfono ingresado no es válido.");
-                            this.modificarCliente(veterinaria);
+                            _this.modificarCliente(veterinaria);
                         }
                         else {
                             cliente.setNombre(nuevoNombre);
                             cliente.setTelefono(telefonoNumero);
                             console.log("Cliente modificado.");
-                            this.gestionarClientes(veterinaria);
+                            _this.gestionarClientes(veterinaria);
                         }
                     });
                 });
             }
             else {
                 console.log("Cliente no encontrado.");
-                this.gestionarClientes(veterinaria);
+                _this.gestionarClientes(veterinaria);
             }
         });
-    }
+    };
     // Función para ver todos los clientes
-    verClientes(veterinaria) {
-        const clientes = veterinaria.getClientes();
+    Menu.prototype.verClientes = function (veterinaria) {
+        var clientes = veterinaria.getClientes();
         if (clientes.length === 0) {
             console.log("No hay clientes registrados.");
         }
         else {
-            clientes.forEach(cliente => console.log(cliente.getDatosCliente()));
+            clientes.forEach(function (cliente) { return console.log(cliente.getDatosCliente()); });
         }
         this.gestionarClientes(veterinaria);
-    }
+    };
     // Función para registrar nueva visita
-    registrarNuevaVisita(veterinaria) {
-        this.rl.question("\nIngrese el ID del cliente para registrar la nueva visita: ", (idCliente) => {
-            const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
+    Menu.prototype.registrarNuevaVisita = function (veterinaria) {
+        var _this = this;
+        this.rl.question("\nIngrese el ID del cliente para registrar la nueva visita: ", function (idCliente) {
+            var cliente = veterinaria.obtenerClientePorId(Number(idCliente));
             if (cliente) {
                 cliente.registrarVisita();
-                console.log(`Visita registrada con éxito para el cliente ${cliente.getNombre()}.`);
+                console.log("Visita registrada con \u00E9xito para el cliente ".concat(cliente.getNombre(), "."));
                 console.log(cliente.getDatosCliente());
             }
             else {
                 console.log("Cliente no encontrado.");
             }
-            this.gestionarClientes(veterinaria);
+            _this.gestionarClientes(veterinaria);
         });
-    }
+    };
     // Función para gestionar pacientes
-    gestionarPacientes(veterinaria) {
+    Menu.prototype.gestionarPacientes = function (veterinaria) {
+        var _this = this;
         console.log("\nMenú de Pacientes");
         console.log("1. Agregar Paciente");
         console.log("2. Eliminar Paciente");
         console.log("3. Ver todos los Pacientes");
         console.log("4. Volver al menú de Veterinaria");
-        this.rl.question("\nIngrese su opción: ", (opcion) => {
+        this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
-                    this.agregarPaciente(veterinaria);
+                    _this.agregarPaciente(veterinaria);
                     break;
                 case "2":
-                    this.eliminarPaciente(veterinaria);
+                    _this.eliminarPaciente(veterinaria);
                     break;
                 case "3":
-                    this.verPacientes(veterinaria);
+                    _this.verPacientes(veterinaria);
                     break;
                 case "4":
-                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+                    _this.mostrarMenuVeterinariaSeleccionada(veterinaria);
                     break;
                 default:
                     console.log("Opción inválida.");
-                    this.gestionarPacientes(veterinaria);
+                    _this.gestionarPacientes(veterinaria);
             }
         });
-    }
+    };
     // Función para agregar un paciente
-    agregarPaciente(veterinaria) {
-        this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
-            this.rl.question('Ingrese especie del paciente: ', (especiePaciente) => {
-                this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
-                    const idCliente = parseInt(idDueño, 10);
-                    const idMascota = Paciente_1.Paciente.generarIdUnico();
-                    const paciente = new Paciente_1.Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
+    Menu.prototype.agregarPaciente = function (veterinaria) {
+        var _this = this;
+        this.rl.question('Ingrese nombre del paciente: ', function (nombrePaciente) {
+            _this.rl.question('Ingrese especie del paciente: ', function (especiePaciente) {
+                _this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', function (idDueño) {
+                    var idCliente = parseInt(idDueño, 10);
+                    var idMascota = Paciente_1.Paciente.generarIdUnico();
+                    var paciente = new Paciente_1.Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
                     veterinaria.agregarPaciente(paciente);
                     console.log("Paciente agregado: " + paciente.getDatosPaciente());
-                    this.gestionarPacientes(veterinaria);
+                    _this.gestionarPacientes(veterinaria);
                 });
             });
         });
-    }
+    };
     // Función para eliminar un paciente
-    eliminarPaciente(veterinaria) {
-        this.rl.question('Ingrese nombre del paciente a eliminar: ', (nombrePaciente) => {
-            const paciente = veterinaria.getPacientePorNombre(nombrePaciente);
+    Menu.prototype.eliminarPaciente = function (veterinaria) {
+        var _this = this;
+        this.rl.question('Ingrese nombre del paciente a eliminar: ', function (nombrePaciente) {
+            var paciente = veterinaria.getPacientePorNombre(nombrePaciente);
             if (paciente) {
                 veterinaria.eliminarPaciente(paciente);
                 console.log("Paciente eliminado.");
-                this.gestionarPacientes(veterinaria);
+                _this.gestionarPacientes(veterinaria);
             }
             else {
                 console.log("Paciente no encontrado.");
-                this.gestionarPacientes(veterinaria);
+                _this.gestionarPacientes(veterinaria);
             }
         });
-    }
+    };
     // Función para ver todos los pacientes
-    verPacientes(veterinaria) {
-        const pacientes = veterinaria.getPacientes();
+    Menu.prototype.verPacientes = function (veterinaria) {
+        var pacientes = veterinaria.getPacientes();
         if (pacientes.length === 0) {
             console.log("No hay pacientes registrados.");
         }
         else {
-            pacientes.forEach(paciente => console.log(paciente.getDatosPaciente()));
+            pacientes.forEach(function (paciente) { return console.log(paciente.getDatosPaciente()); });
         }
         this.gestionarPacientes(veterinaria);
-    }
+    };
     // Funcion para obtener la veterinaria por ID
-    getVeterinariaPorId(id) {
-        const veterinarias = this.redVet1.getVeterinarias();
-        return veterinarias.find(veterinaria => veterinaria.getIdVeterinaria() === id);
-    }
+    Menu.prototype.getVeterinariaPorId = function (id) {
+        var veterinarias = this.redVet1.getVeterinarias();
+        return veterinarias.find(function (veterinaria) { return veterinaria.getIdVeterinaria() === id; });
+    };
     // Menú de Proveedores
-    mostrarMenuProveedores() {
+    Menu.prototype.mostrarMenuProveedores = function () {
+        var _this = this;
         console.log("\nMenú Proveedores");
         console.log("1. Agregar Proveedor");
         console.log("2. Eliminar Proveedor");
         console.log("3. Modificar Proveedor");
         console.log("4. Ver todos los Proveedores");
         console.log("5. Volver al menú principal");
-        this.rl.question("\nIngrese su opción: ", (opcion) => {
+        this.rl.question("\nIngrese su opción: ", function (opcion) {
             switch (opcion) {
                 case "1":
-                    this.agregarProveedor();
+                    _this.agregarProveedor();
                     break;
                 case "2":
-                    this.eliminarProveedor();
+                    _this.eliminarProveedor();
                     break;
                 case "3":
-                    this.modificarProveedor();
+                    _this.modificarProveedor();
                     break;
                 case "4":
-                    this.imprimirListaProveedores();
+                    _this.imprimirListaProveedores();
                     break;
                 case "5":
-                    this.mostrarMenuPrincipal();
+                    _this.mostrarMenuPrincipal();
                     return;
                 default:
                     console.log("Opción inválida. Intente nuevamente.");
-                    this.mostrarMenuProveedores();
+                    _this.mostrarMenuProveedores();
             }
         });
-    }
+    };
     ;
     // Función para agregar un proveedor
-    agregarProveedor() {
-        this.rl.question('Ingrese el nombre del proveedor: ', (nombreProv) => {
-            this.rl.question('Ingrese el teléfono del proveedor: ', (telefonoProv) => {
-                const telefono = parseInt(telefonoProv);
-                this.rl.question('Ingrese la dirección del proveedor: ', (direccionProv) => {
-                    const proveedor1 = new Proveedor_1.Proveedor(nombreProv, telefono, direccionProv);
-                    this.redVet1.agregarProveedor(proveedor1);
+    Menu.prototype.agregarProveedor = function () {
+        var _this = this;
+        this.rl.question('Ingrese el nombre del proveedor: ', function (nombreProv) {
+            _this.rl.question('Ingrese el teléfono del proveedor: ', function (telefonoProv) {
+                var telefono = parseInt(telefonoProv);
+                _this.rl.question('Ingrese la dirección del proveedor: ', function (direccionProv) {
+                    var proveedor1 = new Proveedor_1.Proveedor(nombreProv, telefono, direccionProv);
+                    _this.redVet1.agregarProveedor(proveedor1);
                     console.log("Proveedor agregado:\n" + proveedor1.getDatosProveedor());
-                    this.mostrarMenuProveedores();
+                    _this.mostrarMenuProveedores();
                 });
             });
         });
-    }
+    };
     // Función para eliminar un proveedor
-    eliminarProveedor() {
-        const proveedores = this.redVet1.getProveedores();
-        this.rl.question('Ingrese el nombre del proveedor a eliminar: ', (nombreProv) => {
-            const index = proveedores.findIndex((prov) => prov.getNombreProveedor() === nombreProv);
+    Menu.prototype.eliminarProveedor = function () {
+        var _this = this;
+        var proveedores = this.redVet1.getProveedores();
+        this.rl.question('Ingrese el id del proveedor a eliminar: ', function (idProveedor) {
+            var index = proveedores.findIndex(function (prov) { return prov.getIdProveedor() === Number(idProveedor); });
             if (index !== -1) {
-                this.rl.question('¿Está seguro de eliminar el proveedor? (s/n)', (respuesta) => {
+                _this.rl.question('¿Está seguro de eliminar el proveedor? (s/n)', function (respuesta) {
                     if (respuesta.toLowerCase() === 's') {
                         proveedores.splice(index, 1);
                         console.log("Proveedor Eliminado");
-                        this.redVet1.actualizarProveedores(proveedores);
-                        this.mostrarMenuProveedores();
+                        _this.redVet1.actualizarProveedores(proveedores);
+                        _this.mostrarMenuProveedores();
                     }
                     else {
                         console.log("Operación cancelada");
-                        this.mostrarMenuProveedores();
+                        _this.mostrarMenuProveedores();
                     }
                 });
             }
             else {
                 console.log("Proveedor no encontrado");
-                this.mostrarMenuProveedores();
+                _this.mostrarMenuProveedores();
             }
         });
-    }
+    };
     // Función para modificar un proveedor
-    modificarProveedor() {
-        const proveedores = this.redVet1.getProveedores();
-        this.rl.question('Ingrese nombre del proveedor a modificar: ', (nombreProv) => {
-            const index = proveedores.findIndex((prov) => prov.getNombreProveedor() === nombreProv);
+    Menu.prototype.modificarProveedor = function () {
+        var _this = this;
+        var proveedores = this.redVet1.getProveedores();
+        this.rl.question('Ingrese el id del proveedor a modificar: ', function (idProveedor) {
+            var index = proveedores.findIndex(function (prov) { return prov.getIdProveedor() === Number(idProveedor); });
             if (index !== -1) {
-                this.rl.question('Ingrese nuevo nombre del proveedor: ', (nombreProv1) => {
-                    this.rl.question('Ingrese nueva dirección del proveedor: ', (direccionProv1) => {
-                        this.rl.question('Ingrese nuevo teléfono del proveedor: ', (telefonoProv1) => {
+                _this.rl.question('Ingrese nuevo nombre del proveedor: ', function (nombreProv1) {
+                    _this.rl.question('Ingrese nueva dirección del proveedor: ', function (direccionProv1) {
+                        _this.rl.question('Ingrese nuevo teléfono del proveedor: ', function (telefonoProv1) {
                             proveedores[index].setNombreProveedor(nombreProv1);
                             proveedores[index].setDireccion(direccionProv1);
                             proveedores[index].setTelefonoProveedor(parseInt(telefonoProv1));
-                            this.redVet1.actualizarProveedores(proveedores);
+                            _this.redVet1.actualizarProveedores(proveedores);
                             console.log("Proveedor modificado");
-                            proveedores.forEach((prov) => console.log(prov.getDatosProveedor()));
-                            this.mostrarMenuProveedores();
+                            proveedores.forEach(function (prov) { return console.log(prov.getDatosProveedor()); });
+                            _this.mostrarMenuProveedores();
                         });
                     });
                 });
             }
             else {
                 console.log("Proveedor no encontrado");
-                this.mostrarMenuProveedores();
+                _this.mostrarMenuProveedores();
             }
         });
-    }
+    };
     // Función para imprimir la lista de proveedores
-    imprimirListaProveedores() {
-        const proveedores = this.redVet1.getProveedores();
+    Menu.prototype.imprimirListaProveedores = function () {
+        var proveedores = this.redVet1.getProveedores();
         if (proveedores.length === 0) {
             console.log('No hay proveedores agregados');
         }
         else {
-            proveedores.forEach((proveedor) => console.log(proveedor.getDatosProveedor()));
+            proveedores.forEach(function (proveedor) { return console.log(proveedor.getDatosProveedor()); });
         }
         this.mostrarMenuProveedores();
-    }
-}
+    };
+    return Menu;
+}());
 exports.Menu = Menu;

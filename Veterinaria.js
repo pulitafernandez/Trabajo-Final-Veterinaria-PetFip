@@ -1,94 +1,91 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Veterinaria = void 0;
-class Veterinaria {
-    constructor(nombre, direccion) {
+var Veterinaria = /** @class */ (function () {
+    function Veterinaria(nombre, direccion) {
         this.idVeterinaria = Veterinaria.generarIdUnico();
         this.nombre = nombre;
         this.direccion = direccion;
         this.clientes = [];
         this.pacientes = [];
     }
-    getIdVeterinaria() {
+    Veterinaria.prototype.getIdVeterinaria = function () {
         return this.idVeterinaria;
-    }
-    static generarIdUnico() {
+    };
+    Veterinaria.generarIdUnico = function () {
         return Math.floor(Math.random() * 1000000);
-    }
-    getNombreVeterinaria() {
+    };
+    Veterinaria.prototype.getNombreVeterinaria = function () {
         return this.nombre;
-    }
-    getDireccionVeterinaria() {
+    };
+    Veterinaria.prototype.getDireccionVeterinaria = function () {
         return this.direccion;
-    }
-    getDatosVeterinaria() {
-        return `
-        Veterinaria:
-            ID: ${this.idVeterinaria}
-            Nombre: ${this.nombre}
-            Dirección: ${this.direccion}`;
-    }
-    setNombreVeterinaria(nombre) {
+    };
+    Veterinaria.prototype.getDatosVeterinaria = function () {
+        return "\n        Veterinaria:\n            ID: ".concat(this.idVeterinaria, "\n            Nombre: ").concat(this.nombre, "\n            Direcci\u00F3n: ").concat(this.direccion);
+    };
+    Veterinaria.prototype.setNombreVeterinaria = function (nombre) {
         this.nombre = nombre;
-    }
-    setDireccion(direccion) {
+    };
+    Veterinaria.prototype.setDireccion = function (direccion) {
         this.direccion = direccion;
-    }
+    };
     // Método para agregar un cliente a la veterinaria
-    agregarCliente(cliente) {
+    Veterinaria.prototype.agregarCliente = function (cliente) {
         this.clientes.push(cliente);
-    }
+    };
     // Método para eliminar un cliente de la veterinaria
-    eliminarCliente(cliente) {
-        this.clientes = this.clientes.filter(c => c !== cliente);
-    }
+    Veterinaria.prototype.eliminarCliente = function (cliente) {
+        this.clientes = this.clientes.filter(function (c) { return c !== cliente; });
+    };
     // Método para obtener un cliente por nombre
-    getClientePorNombre(nombre) {
-        return this.clientes.find(cliente => cliente.getNombre() === nombre);
-    }
+    Veterinaria.prototype.getClientePorNombre = function (nombre) {
+        return this.clientes.find(function (cliente) { return cliente.getNombre() === nombre; });
+    };
     // Método para obtener un cliente por ID
-    obtenerClientePorId(id) {
-        return this.clientes.find(cliente => cliente.getIdCliente() === id) || null;
-    }
+    Veterinaria.prototype.obtenerClientePorId = function (id) {
+        return this.clientes.find(function (cliente) { return cliente.getIdCliente() === id; }) || null;
+    };
     // Método para obtener todos los clientes
-    getClientes() {
+    Veterinaria.prototype.getClientes = function () {
         return this.clientes;
-    }
+    };
     // Métodos para manejar pacientes
     // Método para agregar un paciente a la veterinaria
-    agregarPaciente(paciente) {
+    Veterinaria.prototype.agregarPaciente = function (paciente) {
         this.pacientes.push(paciente);
-    }
+    };
     // Método para obtener todos los pacientes
-    getPacientes() {
+    Veterinaria.prototype.getPacientes = function () {
         return this.pacientes;
-    }
+    };
     // Método para obtener un paciente por nombre
-    getPacientePorNombre(nombre) {
-        return this.pacientes.find(paciente => paciente.getNombre() === nombre);
-    }
+    Veterinaria.prototype.getPacientePorNombre = function (nombre) {
+        return this.pacientes.find(function (paciente) { return paciente.getNombre() === nombre; });
+    };
     // Método para eliminar un paciente de la veterinaria
-    eliminarPaciente(paciente) {
-        this.pacientes = this.pacientes.filter(p => p !== paciente);
-    }
+    Veterinaria.prototype.eliminarPaciente = function (paciente) {
+        this.pacientes = this.pacientes.filter(function (p) { return p !== paciente; });
+    };
     // Método para mostrar los datos de la veterinaria: sus clientes y pacientes
-    mostrarClientes() {
-        console.log(`Veterinaria: ${this.nombre}, Dirección: ${this.direccion}`);
+    Veterinaria.prototype.mostrarClientes = function () {
+        console.log("Veterinaria: ".concat(this.nombre, ", Direcci\u00F3n: ").concat(this.direccion));
         if (this.clientes.length === 0) {
             console.log("No hay clientes registrados.");
         }
         else {
-            this.clientes.forEach(cliente => cliente.mostrarCliente());
+            this.clientes.forEach(function (cliente) { return cliente.mostrarCliente(); });
         }
-    }
-    mostrarPacientes() {
-        console.log(`Veterinaria: ${this.nombre}, Dirección: ${this.direccion}`);
+    };
+    Veterinaria.prototype.mostrarPacientes = function () {
+        console.log("Veterinaria: ".concat(this.nombre, ", Direcci\u00F3n: ").concat(this.direccion));
         if (this.pacientes.length === 0) {
             console.log("No hay pacientes registrados.");
         }
         else {
-            this.pacientes.forEach(paciente => paciente.mostrarPaciente());
+            this.pacientes.forEach(function (paciente) { return paciente.mostrarPaciente(); });
         }
-    }
-}
+    };
+    return Veterinaria;
+}());
 exports.Veterinaria = Veterinaria;

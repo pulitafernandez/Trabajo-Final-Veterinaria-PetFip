@@ -36,8 +36,8 @@ export class RedVeterinaria {
     }
 
     // Método para eliminar un proveedor
-    public eliminarProveedor(nombre: string): boolean {
-        const index = this.proveedores.findIndex(prov => prov.getNombreProveedor() === nombre);
+    public eliminarProveedor(idProveedor: number): boolean {
+        const index = this.proveedores.findIndex(prov => prov.getIdProveedor() === idProveedor);
         if (index >= 0) {
             this.proveedores.splice(index, 1);
             return true;

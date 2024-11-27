@@ -99,8 +99,8 @@ private agregarVeterinaria(): void {
     // Función para eliminar una veterinaria
     private eliminarVeterinaria(): void {
         const veterinarias: Veterinaria[] = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a eliminar: ', (nombreVet) => {
-            const index = veterinarias.findIndex((vet) => vet.getNombreVeterinaria() === nombreVet);
+        this.rl.question('Ingrese el id de la veterinaria a eliminar: ', (idVeterinaria) => {
+            const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
             if (index !== -1) {
                 this.rl.question('¿Está seguro de eliminar la veterinaria? (s/n)', (respuesta) => {
                     if (respuesta.toLowerCase() === 's') {
@@ -123,8 +123,8 @@ private agregarVeterinaria(): void {
     // Función para modificar una veterinaria
     private modificarVeterinaria(): void {
         const veterinarias: Veterinaria[] = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a modificar: ', (nombreVet) => {
-            const index = veterinarias.findIndex((vet) => vet.getNombreVeterinaria() === nombreVet);
+        this.rl.question('Ingrese el id de la veterinaria a modificar: ', (idVeterinaria) => {
+            const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
             if (index !== -1) {
                 this.rl.question('Ingrese nuevo nombre de la veterinaria: ', (nombreVet1) => {
                     this.rl.question('Ingrese Nueva Direccion Veterinaria: ', (direccionVet1) => {
@@ -267,8 +267,8 @@ private gestionarClientes(veterinaria: Veterinaria): void {
 
     // Función para eliminar un cliente
     private eliminarCliente(veterinaria: Veterinaria): void {
-        this.rl.question('Ingrese nombre del cliente a eliminar: ', (nombreCliente) => {
-            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+        this.rl.question('Ingrese el id del cliente a eliminar: ', (idCliente) => {
+            const cliente = veterinaria.obtenerClientePorId (Number(idCliente));
             if (cliente) {
                 veterinaria.eliminarCliente(cliente);
                 console.log("Cliente eliminado.");
@@ -282,8 +282,8 @@ private gestionarClientes(veterinaria: Veterinaria): void {
 
     // Función para modificar un cliente
     private modificarCliente(veterinaria: Veterinaria): void {
-        this.rl.question('Ingrese nombre del cliente a modificar: ', (nombreCliente) => {
-            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+        this.rl.question('Ingrese el id del cliente a modificar: ', (idCliente) => {
+            const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
             if (cliente) {
                 this.rl.question('Ingrese nuevo nombre del cliente: ', (nuevoNombre) => {
                     this.rl.question('Ingrese nuevo teléfono del cliente: ', (nuevoTelefono) => {
@@ -382,8 +382,8 @@ private agregarPaciente(veterinaria: Veterinaria): void {
 
     // Función para eliminar un paciente
     private eliminarPaciente(veterinaria: Veterinaria): void {
-        this.rl.question('Ingrese nombre del paciente a eliminar: ', (nombrePaciente) => {
-            const paciente = veterinaria.getPacientePorNombre(nombrePaciente);
+        this.rl.question('Ingrese el id del paciente a eliminar: ', (idPaciente) => {
+            const paciente = veterinaria.getPacientePorId(Number(idPaciente));
             if (paciente) {
                 veterinaria.eliminarPaciente(paciente);
                 console.log("Paciente eliminado.");
@@ -463,8 +463,8 @@ private agregarPaciente(veterinaria: Veterinaria): void {
     // Función para eliminar un proveedor
     private eliminarProveedor(): void {
         const proveedores: Proveedor[] = this.redVet1.getProveedores();
-        this.rl.question('Ingrese el nombre del proveedor a eliminar: ', (nombreProv) => {
-            const index = proveedores.findIndex((prov) => prov.getNombreProveedor() === nombreProv);
+        this.rl.question('Ingrese el id del proveedor a eliminar: ', (idProveedor) => {
+            const index = proveedores.findIndex((prov) => prov.getIdProveedor() === Number(idProveedor));
             if (index !== -1) {
                 this.rl.question('¿Está seguro de eliminar el proveedor? (s/n)', (respuesta) => {
                     if (respuesta.toLowerCase() === 's') {
@@ -487,8 +487,8 @@ private agregarPaciente(veterinaria: Veterinaria): void {
     // Función para modificar un proveedor
     private modificarProveedor(): void {
         const proveedores: Proveedor[] = this.redVet1.getProveedores();
-        this.rl.question('Ingrese nombre del proveedor a modificar: ', (nombreProv) => {
-            const index = proveedores.findIndex((prov) => prov.getNombreProveedor() === nombreProv);
+        this.rl.question('Ingrese el id del proveedor a modificar: ', (idProveedor) => {
+            const index = proveedores.findIndex((prov) => prov.getIdProveedor() === Number(idProveedor));
             if (index !== -1) {
                 this.rl.question('Ingrese nuevo nombre del proveedor: ', (nombreProv1) => {
                     this.rl.question('Ingrese nueva dirección del proveedor: ', (direccionProv1) => {
