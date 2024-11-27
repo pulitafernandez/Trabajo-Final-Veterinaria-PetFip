@@ -2,12 +2,19 @@ import * as readline from "readline";
 import { Veterinaria } from './Veterinaria';
 import { RedVeterinaria } from './RedVeterinaria';
 import { Proveedor } from './Proveedor';
+import { Cliente } from './Cliente';
+import { Paciente } from './Paciente';
 
 export class Menu {
+    private clientes: Cliente[];
     private rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
     });
+
+    constructor() {
+        this.clientes = [];
+    }
 
     private redVet1 = new RedVeterinaria();
 
@@ -63,7 +70,7 @@ export class Menu {
                     this.imprimirListaVeterinarias();
                     break;
                 case "5":
-                    this.verVeterinariaTal();
+                    this.seleccionarveterinaria();
                     return;
                 case "6":
                     this.mostrarMenuPrincipal();
@@ -83,7 +90,6 @@ private agregarVeterinaria(): void {
           this.redVet1.agregarVeterinaria(veterinaria1);
           console.log("Veterinaria agregada:\n" + veterinaria1.getDatosVeterinaria());
 
-          // Solo después de procesar todo correctamente, volvemos al menú
           this.mostrarMenuVeterinarias();
       });
   });
@@ -148,27 +154,33 @@ private agregarVeterinaria(): void {
         this.mostrarMenuVeterinarias();
     }
 
+    // Función para obtener un cliente por su ID
+        public obtenerClientePorId(id: number): Cliente | null {
+            return this.clientes.find(cliente => cliente.getIdCliente() === id) || null;
+}
+
     
     // Función para trabajar con una veterinaria por ID
-    private verVeterinariaTal(): void {
+    private seleccionarveterinaria(): void {
         this.rl.question("Ingresa el ID de la veterinaria: ", (input) => {
-            const id = parseInt(input);  // Convertir la entrada a un número
+            const id = parseInt(input);
             if (isNaN(id)) {
                 console.log("El ID debe ser un número válido.");
-                this.verVeterinariaTal();  // Volver a pedir el ID si no es válido
+                this.seleccionarveterinaria(); 
             } else {
-        const veterinaria = this.getVeterinariaPorId(id);
+                const veterinaria = this.getVeterinariaPorId(id);
                 if (veterinaria) {
                     console.log("Veterinaria encontrada:");
                     console.log(veterinaria.getDatosVeterinaria());
-                    //this.mostrarMenuVeterinarias(); aca tenemos que crear un menu de clientes
+                    
+                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
                 } else {
                     console.log("No se ha encontrado una veterinaria con ese ID.");
-                    this.rl.question('¿Quiere agregar otro id de veterinaria? en caso de salir presione n (s/n)', (respuesta) => {
+                    this.rl.question('¿Quiere agregar otro id de veterinaria? En caso de salir presione n (s/n)', (respuesta) => {
                         if (respuesta.toLowerCase() === 's') {
-                            this.verVeterinariaTal();
+                            this.seleccionarveterinaria();
                         } else {
-                            console.log("Volver a menu veterinaria");
+                            console.log("Volver a menú veterinaria");
                             this.mostrarMenuVeterinarias();
                         }
                     });
@@ -176,11 +188,230 @@ private agregarVeterinaria(): void {
             }
         });
     }
+    
 
+
+     // Menú de opciones al seleccionar una veterinaria
+     private mostrarMenuVeterinariaSeleccionada(veterinaria: Veterinaria): void {
+        console.log("\nMenú de Veterinaria seleccionada");
+        console.log("1. Gestionar Clientes");
+        console.log("2. Gestionar Pacientes");
+        console.log("3. Volver al menú anterior");
+        this.rl.question("\nIngrese su opción: ", (opcion: string) => {
+            switch (opcion) {
+                case "1":
+                    this.gestionarClientes(veterinaria);
+                    break;
+                case "2":
+                    this.gestionarPacientes(veterinaria);
+                    break;
+                case "3":
+                    this.mostrarMenuVeterinarias();
+                    break;
+                default:
+                    console.log("Opción inválida.");
+                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+            }
+        });
+    }
+
+    // Función para gestionar clientes
+private gestionarClientes(veterinaria: Veterinaria): void {
+    console.log("\nMenú de Clientes");
+    console.log("1. Agregar Cliente");
+    console.log("2. Eliminar Cliente");
+    console.log("3. Modificar Cliente");
+    console.log("4. Ver todos los Clientes");
+    console.log("5. Registrar nueva visita");
+    console.log("6. Volver al menú de Veterinaria");
+    this.rl.question("\nIngrese su opción: ", (opcion: string) => {
+        switch (opcion) {
+            case "1":
+                this.agregarCliente(veterinaria);
+                break;
+            case "2":
+                this.eliminarCliente(veterinaria);
+                break;
+            case "3":
+                this.modificarCliente(veterinaria);
+                break;
+            case "4":
+                this.verClientes(veterinaria);
+                break;
+            case "5":
+                this.registrarNuevaVisita(veterinaria);
+                break;
+            case "6":
+                this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+                break;
+            default:
+                console.log("Opción inválida.");
+                this.gestionarClientes(veterinaria);
+        }
+    });
+}
+
+
+    // Función para agregar un cliente
+    private agregarCliente(veterinaria: Veterinaria): void {
+        this.rl.question('Ingrese nombre del cliente: ', (nombreCliente) => {
+            this.rl.question('Ingrese teléfono del cliente: ', (telefonoCliente) => {
+                const idCliente = Cliente.generarIdUnico(); 
+                const cliente = new Cliente(idCliente, nombreCliente, Number(telefonoCliente));
+                veterinaria.agregarCliente(cliente);
+                console.log("Cliente agregado: " + cliente.getDatosCliente());
+                this.gestionarClientes(veterinaria);
+            });
+        });
+    }
+
+    // Función para eliminar un cliente
+    private eliminarCliente(veterinaria: Veterinaria): void {
+        this.rl.question('Ingrese nombre del cliente a eliminar: ', (nombreCliente) => {
+            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+            if (cliente) {
+                veterinaria.eliminarCliente(cliente);
+                console.log("Cliente eliminado.");
+                this.gestionarClientes(veterinaria);
+            } else {
+                console.log("Cliente no encontrado.");
+                this.gestionarClientes(veterinaria);
+            }
+        });
+    }
+
+    // Función para modificar un cliente
+    private modificarCliente(veterinaria: Veterinaria): void {
+        this.rl.question('Ingrese nombre del cliente a modificar: ', (nombreCliente) => {
+            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+            if (cliente) {
+                this.rl.question('Ingrese nuevo nombre del cliente: ', (nuevoNombre) => {
+                    this.rl.question('Ingrese nuevo teléfono del cliente: ', (nuevoTelefono) => {
+                       
+                        const telefonoNumero = parseInt(nuevoTelefono);
+                        
+                        if (isNaN(telefonoNumero)) {
+                            console.log("El teléfono ingresado no es válido.");
+                            this.modificarCliente(veterinaria);
+                        } else {
+                            cliente.setNombre(nuevoNombre);
+                            cliente.setTelefono(telefonoNumero);
+                            console.log("Cliente modificado.");
+                            this.gestionarClientes(veterinaria);
+                        }
+                    });
+                });
+            } else {
+                console.log("Cliente no encontrado.");
+                this.gestionarClientes(veterinaria);
+            }
+        });
+    }
+
+    // Función para ver todos los clientes
+    private verClientes(veterinaria: Veterinaria): void {
+        const clientes = veterinaria.getClientes();
+        if (clientes.length === 0) {
+            console.log("No hay clientes registrados.");
+        } else {
+            clientes.forEach(cliente => console.log(cliente.getDatosCliente()));
+        }
+        this.gestionarClientes(veterinaria);
+    }
+
+    // Función para registrar nueva visita
+private registrarNuevaVisita(veterinaria: Veterinaria): void {
+    this.rl.question("\nIngrese el ID del cliente para registrar la nueva visita: ", (idCliente: string) => {
+        const cliente = veterinaria.obtenerClientePorId(Number(idCliente)); 
+        if (cliente) {
+            cliente.registrarVisita();  
+            console.log(`Visita registrada con éxito para el cliente ${cliente.getNombre()}.`);
+            console.log(cliente.getDatosCliente());
+        } else {
+            console.log("Cliente no encontrado.");
+        }
+        this.gestionarClientes(veterinaria);
+    });
+}
+
+    // Función para gestionar pacientes
+    private gestionarPacientes(veterinaria: Veterinaria): void {
+        console.log("\nMenú de Pacientes");
+        console.log("1. Agregar Paciente");
+        console.log("2. Eliminar Paciente");
+        console.log("3. Ver todos los Pacientes");
+        console.log("4. Volver al menú de Veterinaria");
+        this.rl.question("\nIngrese su opción: ", (opcion: string) => {
+            switch (opcion) {
+                case "1":
+                    this.agregarPaciente(veterinaria);
+                    break;
+                case "2":
+                    this.eliminarPaciente(veterinaria);
+                    break;
+                case "3":
+                    this.verPacientes(veterinaria);
+                    break;
+                case "4":
+                    this.mostrarMenuVeterinariaSeleccionada(veterinaria);
+                    break;
+                default:
+                    console.log("Opción inválida.");
+                    this.gestionarPacientes(veterinaria);
+            }
+        });
+    }
+
+    // Función para agregar un paciente
+private agregarPaciente(veterinaria: Veterinaria): void {
+    this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
+        this.rl.question('Ingrese especie del paciente: ', (especiePaciente) => {
+            this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
+                const idCliente = parseInt(idDueño, 10);
+                const idMascota = Paciente.generarIdUnico();
+                
+                const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
+                
+                veterinaria.agregarPaciente(paciente);
+                console.log("Paciente agregado: " + paciente.getDatosPaciente());
+                this.gestionarPacientes(veterinaria);
+            });
+        });
+    });
+}
+
+    // Función para eliminar un paciente
+    private eliminarPaciente(veterinaria: Veterinaria): void {
+        this.rl.question('Ingrese nombre del paciente a eliminar: ', (nombrePaciente) => {
+            const paciente = veterinaria.getPacientePorNombre(nombrePaciente);
+            if (paciente) {
+                veterinaria.eliminarPaciente(paciente);
+                console.log("Paciente eliminado.");
+                this.gestionarPacientes(veterinaria);
+            } else {
+                console.log("Paciente no encontrado.");
+                this.gestionarPacientes(veterinaria);
+            }
+        });
+    }
+
+    // Función para ver todos los pacientes
+    private verPacientes(veterinaria: Veterinaria): void {
+        const pacientes = veterinaria.getPacientes();
+        if (pacientes.length === 0) {
+            console.log("No hay pacientes registrados.");
+        } else {
+            pacientes.forEach(paciente => console.log(paciente.getDatosPaciente()));
+        }
+        this.gestionarPacientes(veterinaria);
+    }
+
+    // Funcion para obtener la veterinaria por ID
     public getVeterinariaPorId(id: number): Veterinaria | undefined {
         const veterinarias: Veterinaria[] = this.redVet1.getVeterinarias();
         return veterinarias.find(veterinaria => veterinaria.getIdVeterinaria() === id);
     }
+
 
     // Menú de Proveedores
     private mostrarMenuProveedores(): void {
@@ -211,14 +442,14 @@ private agregarVeterinaria(): void {
                     console.log("Opción inválida. Intente nuevamente.");
                 this.mostrarMenuProveedores();
             }
-        });
-    }
+        })
+    };
 
     // Función para agregar un proveedor
     private agregarProveedor(): void {
         this.rl.question('Ingrese el nombre del proveedor: ', (nombreProv) => {
             this.rl.question('Ingrese el teléfono del proveedor: ', (telefonoProv) => {
-                const telefono = parseInt(telefonoProv);  // Convertir el numero a entero
+                const telefono = parseInt(telefonoProv);
                 this.rl.question('Ingrese la dirección del proveedor: ', (direccionProv) => {
                     const proveedor1 = new Proveedor(nombreProv, telefono, direccionProv);
                     this.redVet1.agregarProveedor(proveedor1);

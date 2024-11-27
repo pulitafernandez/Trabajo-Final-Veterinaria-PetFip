@@ -1,4 +1,4 @@
-import { Proveedor } from "./Proveedor";
+import { Proveedor } from "./Proveedor"; 
 import { Veterinaria } from "./Veterinaria";
 
 export class RedVeterinaria {
@@ -29,9 +29,9 @@ export class RedVeterinaria {
     public actualizarProveedores(proveedores: Proveedor[]): void {
         this.proveedores = proveedores;
     }
-    
-     // Método para actualizar la lista de veterinarias
-     public actualizarVeterinarias(veterinarias: Veterinaria[]): void {
+
+    // Método para actualizar la lista de veterinarias
+    public actualizarVeterinarias(veterinarias: Veterinaria[]): void {
         this.veterinarias = veterinarias;
     }
 
@@ -43,5 +43,10 @@ export class RedVeterinaria {
             return true;
         }
         return false;
+    }
+
+    // Método para obtener una veterinaria por ID
+    public getVeterinariaPorId(id: number): Veterinaria | undefined {
+        return this.veterinarias.find(veterinaria => veterinaria.getIdVeterinaria() === id);
     }
 }

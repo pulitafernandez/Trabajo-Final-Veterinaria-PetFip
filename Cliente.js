@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cliente = void 0;
-var Cliente = /** @class */ (function () {
-    function Cliente(idCliente, nombre, telefono) {
+class Cliente {
+    constructor(idCliente, nombre, telefono) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -10,48 +10,81 @@ var Cliente = /** @class */ (function () {
         this.visitas = 0;
         this.mascotas = [];
     }
-    Cliente.prototype.getIdCliente = function () {
+    // Función para generar un ID único
+    static generarIdUnico() {
+        return Math.floor(Math.random() * 1000000);
+    }
+    getIdCliente() {
         return this.idCliente;
-    };
-    Cliente.prototype.setIdCliente = function (idCliente) {
+    }
+    setIdCliente(idCliente) {
         this.idCliente = idCliente;
-    };
-    Cliente.prototype.getNombre = function () {
+    }
+    getNombre() {
         return this.nombre;
-    };
-    Cliente.prototype.setNombre = function (nombre) {
+    }
+    setNombre(nombre) {
         this.nombre = nombre;
-    };
-    Cliente.prototype.getTelefono = function () {
+    }
+    getTelefono() {
         return this.telefono;
-    };
-    Cliente.prototype.setTelefono = function (telefono) {
+    }
+    setTelefono(telefono) {
         this.telefono = telefono;
-    };
-    Cliente.prototype.getEsVip = function () {
+    }
+    getEsVip() {
         return this.esVip;
-    };
-    Cliente.prototype.setEsVip = function (esVip) {
+    }
+    setEsVip(esVip) {
         this.esVip = esVip;
-    };
-    Cliente.prototype.getMascotas = function () {
+    }
+    getMascotas() {
         return this.mascotas;
-    };
-    Cliente.prototype.setMascotas = function (mascotas) {
+    }
+    setMascotas(mascotas) {
         this.mascotas = mascotas;
-    };
-    Cliente.prototype.getDatosCliente = function () {
-        return "\n        Cliente:\n            ID: ".concat(this.idCliente, "\n            Nombre: ").concat(this.nombre, "\n            Telefono: ").concat(this.telefono, "\n            Es VIP: ").concat(this.esVip); //ver como hacer para mostrar si es vip o no por que es booleano
-    };
-    Cliente.prototype.registrarVisita = function () {
+    }
+    // Mostrar información del cliente
+    getDatosCliente() {
+        return `
+        Cliente:
+            ID: ${this.idCliente}
+            Nombre: ${this.nombre}
+            Teléfono: ${this.telefono}
+            Es VIP: ${this.esVip ? 'Sí' : 'No'}
+            Visitas: ${this.visitas}`;
+    }
+    // Método para registrar visitas de un cliente
+    registrarVisita() {
         this.visitas++;
-        this.esVip = this.visitas >= 5;
-    };
-    Cliente.prototype.mostrarCliente = function () {
-        console.log("Cliente: ".concat(this.nombre));
-        console.log("Tel\u00E9fono: ".concat(this.telefono));
-        console.log("Mascotas: ".concat(this.mascotas.join(", ")));
-    };
-    return Cliente;
-}());
+        if (this.visitas >= 5) {
+            this.esVip = true;
+        }
+    }
+    // Mostrar cliente junto con sus mascotas
+    mostrarCliente() {
+        console.log(`Cliente: ${this.nombre}`);
+        console.log(`Teléfono: ${this.telefono}`);
+        if (this.mascotas.length > 0) {
+            console.log(`Mascotas: ${this.mascotas.map(mascota => mascota.getNombre()).join(", ")}`);
+        }
+        else {
+            console.log("No tiene mascotas registradas.");
+        }
+        console.log(`VIP: ${this.esVip ? "Sí" : "No"}`);
+        console.log(`Visitas: ${this.visitas}`);
+    }
+    // Añadir una mascota al cliente
+    agregarMascota(mascota) {
+        this.mascotas.push(mascota);
+    }
+    // Eliminar una mascota del cliente
+    eliminarMascota(idMascota) {
+        this.mascotas = this.mascotas.filter(mascota => mascota.getIdPaciente() !== idMascota);
+    }
+    // Comprobar si el cliente es VIP
+    esVipCliente() {
+        return this.esVip ? "VIP" : "No es VIP";
+    }
+}
 exports.Cliente = Cliente;
