@@ -95,8 +95,8 @@ var Menu = /** @class */ (function () {
     Menu.prototype.eliminarVeterinaria = function () {
         var _this = this;
         var veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a eliminar: ', function (nombreVet) {
-            var index = veterinarias.findIndex(function (vet) { return vet.getNombreVeterinaria() === nombreVet; });
+        this.rl.question('Ingrese el id de la veterinaria a eliminar: ', function (idVeterinaria) {
+            var index = veterinarias.findIndex(function (vet) { return vet.getIdVeterinaria() === Number(idVeterinaria); });
             if (index !== -1) {
                 _this.rl.question('¿Está seguro de eliminar la veterinaria? (s/n)', function (respuesta) {
                     if (respuesta.toLowerCase() === 's') {
@@ -121,8 +121,8 @@ var Menu = /** @class */ (function () {
     Menu.prototype.modificarVeterinaria = function () {
         var _this = this;
         var veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a modificar: ', function (nombreVet) {
-            var index = veterinarias.findIndex(function (vet) { return vet.getNombreVeterinaria() === nombreVet; });
+        this.rl.question('Ingrese el id de la veterinaria a modificar: ', function (idVeterinaria) {
+            var index = veterinarias.findIndex(function (vet) { return vet.getIdVeterinaria() === Number(idVeterinaria); });
             if (index !== -1) {
                 _this.rl.question('Ingrese nuevo nombre de la veterinaria: ', function (nombreVet1) {
                     _this.rl.question('Ingrese Nueva Direccion Veterinaria: ', function (direccionVet1) {
@@ -363,7 +363,7 @@ var Menu = /** @class */ (function () {
     Menu.prototype.agregarPaciente = function (veterinaria) {
         var _this = this;
         this.rl.question('Ingrese nombre del paciente: ', function (nombrePaciente) {
-            _this.rl.question('Ingrese especie del paciente: ', function (especiePaciente) {
+            _this.pedirEspeciePaciente(function (especiePaciente) {
                 _this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', function (idDueño) {
                     var idCliente = parseInt(idDueño, 10);
                     var idMascota = Paciente_1.Paciente.generarIdUnico();
@@ -375,11 +375,26 @@ var Menu = /** @class */ (function () {
             });
         });
     };
+    // Función para pedir la especie y validar que sea válida
+    Menu.prototype.pedirEspeciePaciente = function (callback) {
+        var _this = this;
+        this.rl.question('Ingrese especie del paciente (perro, gato, exotico): ', function (especiePaciente) {
+            // Validar si la especie ingresada es válida
+            var especiesValidas = ["perro", "gato", "exotico"];
+            if (especiesValidas.includes(especiePaciente.toLowerCase())) {
+                callback(especiePaciente); // Si la especie es válida, continuar con el flujo
+            }
+            else {
+                console.log("Especie inválida. Debe ser 'perro', 'gato' o 'exotico'.");
+                _this.pedirEspeciePaciente(callback); // Si no es válida, pedir de nuevo
+            }
+        });
+    };
     // Función para eliminar un paciente
     Menu.prototype.eliminarPaciente = function (veterinaria) {
         var _this = this;
-        this.rl.question('Ingrese nombre del paciente a eliminar: ', function (nombrePaciente) {
-            var paciente = veterinaria.getPacientePorNombre(nombrePaciente);
+        this.rl.question('Ingrese el id del paciente a eliminar: ', function (idPaciente) {
+            var paciente = veterinaria.getPacientePorId(Number(idPaciente));
             if (paciente) {
                 veterinaria.eliminarPaciente(paciente);
                 console.log("Paciente eliminado.");

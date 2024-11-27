@@ -363,22 +363,36 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
     }
 
     // Función para agregar un paciente
-private agregarPaciente(veterinaria: Veterinaria): void {
-    this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
-        this.rl.question('Ingrese especie del paciente: ', (especiePaciente) => {
-            this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
-                const idCliente = parseInt(idDueño, 10);
-                const idMascota = Paciente.generarIdUnico();
-                
-                const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
-                
-                veterinaria.agregarPaciente(paciente);
-                console.log("Paciente agregado: " + paciente.getDatosPaciente());
-                this.gestionarPacientes(veterinaria);
+    private agregarPaciente(veterinaria: Veterinaria): void {
+        this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
+            this.pedirEspeciePaciente((especiePaciente) => {
+                this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
+                    const idCliente = parseInt(idDueño, 10);
+                    const idMascota = Paciente.generarIdUnico();
+                    
+                    const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
+                    
+                    veterinaria.agregarPaciente(paciente);
+                    console.log("Paciente agregado: " + paciente.getDatosPaciente());
+                    this.gestionarPacientes(veterinaria);
+                });
             });
         });
-    });
-}
+    }
+
+    // Función para pedir la especie y validar que sea válida
+    private pedirEspeciePaciente(callback: (especie: string) => void): void {
+        this.rl.question('Ingrese especie del paciente (perro, gato, exotico): ', (especiePaciente) => {
+            // Validar si la especie ingresada es válida
+            const especiesValidas = ["perro", "gato", "exotico"];
+            if (especiesValidas.includes(especiePaciente.toLowerCase())) {
+                callback(especiePaciente); // Si la especie es válida, continuar con el flujo
+            } else {
+                console.log("Especie inválida. Debe ser 'perro', 'gato' o 'exotico'.");
+                this.pedirEspeciePaciente(callback); // Si no es válida, pedir de nuevo
+            }
+        });
+    }
 
     // Función para eliminar un paciente
     private eliminarPaciente(veterinaria: Veterinaria): void {

@@ -63,6 +63,10 @@ var Veterinaria = /** @class */ (function () {
     Veterinaria.prototype.getPacientePorNombre = function (nombre) {
         return this.pacientes.find(function (paciente) { return paciente.getNombre() === nombre; });
     };
+    // Método para obtener un paciente por id
+    Veterinaria.prototype.getPacientePorId = function (idPaciente) {
+        return this.pacientes.find(function (paciente) { return paciente.getIdPaciente() === idPaciente; });
+    };
     // Método para eliminar un paciente de la veterinaria
     Veterinaria.prototype.eliminarPaciente = function (paciente) {
         this.pacientes = this.pacientes.filter(function (p) { return p !== paciente; });
