@@ -1,52 +1,94 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Veterinaria = void 0;
-var Veterinaria = /** @class */ (function () {
-    function Veterinaria(nombre, direccion) {
+class Veterinaria {
+    constructor(nombre, direccion) {
         this.idVeterinaria = Veterinaria.generarIdUnico();
         this.nombre = nombre;
         this.direccion = direccion;
         this.clientes = [];
+        this.pacientes = [];
     }
-    Veterinaria.prototype.getIdVeterinaria = function () {
+    getIdVeterinaria() {
         return this.idVeterinaria;
-    };
-    Veterinaria.generarIdUnico = function () {
+    }
+    static generarIdUnico() {
         return Math.floor(Math.random() * 1000000);
-    };
-    Veterinaria.prototype.getNombreVeterinaria = function () {
+    }
+    getNombreVeterinaria() {
         return this.nombre;
-    };
-    Veterinaria.prototype.getDireccionVeterinaria = function () {
+    }
+    getDireccionVeterinaria() {
         return this.direccion;
-    };
-    Veterinaria.prototype.getDatosVeterinaria = function () {
-        return "\n        Veterinaria:\n            ID: ".concat(this.idVeterinaria, "\n            Nombre: ").concat(this.nombre, "\n            Direcci\u00F3n: ").concat(this.direccion);
-    };
-    Veterinaria.prototype.setNombreVeterinaria = function (nombre) {
+    }
+    getDatosVeterinaria() {
+        return `
+        Veterinaria:
+            ID: ${this.idVeterinaria}
+            Nombre: ${this.nombre}
+            Dirección: ${this.direccion}`;
+    }
+    setNombreVeterinaria(nombre) {
         this.nombre = nombre;
-    };
-    Veterinaria.prototype.setDireccion = function (direccion) {
+    }
+    setDireccion(direccion) {
         this.direccion = direccion;
-    };
+    }
     // Método para agregar un cliente a la veterinaria
-    Veterinaria.prototype.agregarCliente = function (cliente) {
+    agregarCliente(cliente) {
         this.clientes.push(cliente);
-    };
+    }
     // Método para eliminar un cliente de la veterinaria
-    Veterinaria.prototype.eliminarCliente = function (cliente) {
-        this.clientes = this.clientes.filter(function (c) { return c !== cliente; });
-    };
-    // Método para mostrar los datos de la veterinaria y sus clientes
-    Veterinaria.prototype.mostrarClientes = function () {
-        console.log("Veterinaria: ".concat(this.nombre, ", Direcci\u00F3n: ").concat(this.direccion));
+    eliminarCliente(cliente) {
+        this.clientes = this.clientes.filter(c => c !== cliente);
+    }
+    // Método para obtener un cliente por nombre
+    getClientePorNombre(nombre) {
+        return this.clientes.find(cliente => cliente.getNombre() === nombre);
+    }
+    // Método para obtener un cliente por ID
+    obtenerClientePorId(id) {
+        return this.clientes.find(cliente => cliente.getIdCliente() === id) || null;
+    }
+    // Método para obtener todos los clientes
+    getClientes() {
+        return this.clientes;
+    }
+    // Métodos para manejar pacientes
+    // Método para agregar un paciente a la veterinaria
+    agregarPaciente(paciente) {
+        this.pacientes.push(paciente);
+    }
+    // Método para obtener todos los pacientes
+    getPacientes() {
+        return this.pacientes;
+    }
+    // Método para obtener un paciente por nombre
+    getPacientePorNombre(nombre) {
+        return this.pacientes.find(paciente => paciente.getNombre() === nombre);
+    }
+    // Método para eliminar un paciente de la veterinaria
+    eliminarPaciente(paciente) {
+        this.pacientes = this.pacientes.filter(p => p !== paciente);
+    }
+    // Método para mostrar los datos de la veterinaria: sus clientes y pacientes
+    mostrarClientes() {
+        console.log(`Veterinaria: ${this.nombre}, Dirección: ${this.direccion}`);
         if (this.clientes.length === 0) {
             console.log("No hay clientes registrados.");
         }
         else {
-            this.clientes.forEach(function (cliente) { return cliente.mostrarCliente(); });
+            this.clientes.forEach(cliente => cliente.mostrarCliente());
         }
-    };
-    return Veterinaria;
-}());
+    }
+    mostrarPacientes() {
+        console.log(`Veterinaria: ${this.nombre}, Dirección: ${this.direccion}`);
+        if (this.pacientes.length === 0) {
+            console.log("No hay pacientes registrados.");
+        }
+        else {
+            this.pacientes.forEach(paciente => paciente.mostrarPaciente());
+        }
+    }
+}
 exports.Veterinaria = Veterinaria;

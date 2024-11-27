@@ -1,44 +1,47 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RedVeterinaria = void 0;
-var RedVeterinaria = /** @class */ (function () {
-    function RedVeterinaria() {
+class RedVeterinaria {
+    constructor() {
         this.veterinarias = [];
         this.proveedores = [];
     }
     // Método para agregar una nueva veterinaria
-    RedVeterinaria.prototype.agregarVeterinaria = function (veterinaria) {
+    agregarVeterinaria(veterinaria) {
         this.veterinarias.push(veterinaria);
-    };
+    }
     // Método para agregar un proveedor
-    RedVeterinaria.prototype.agregarProveedor = function (proveedor) {
+    agregarProveedor(proveedor) {
         this.proveedores.push(proveedor);
-    };
+    }
     // Método para obtener la lista de veterinarias
-    RedVeterinaria.prototype.getVeterinarias = function () {
+    getVeterinarias() {
         return this.veterinarias;
-    };
+    }
     // Método para obtener la lista de proveedores
-    RedVeterinaria.prototype.getProveedores = function () {
+    getProveedores() {
         return this.proveedores;
-    };
+    }
     // Método para actualizar la lista de proveedores
-    RedVeterinaria.prototype.actualizarProveedores = function (proveedores) {
+    actualizarProveedores(proveedores) {
         this.proveedores = proveedores;
-    };
+    }
     // Método para actualizar la lista de veterinarias
-    RedVeterinaria.prototype.actualizarVeterinarias = function (veterinarias) {
+    actualizarVeterinarias(veterinarias) {
         this.veterinarias = veterinarias;
-    };
+    }
     // Método para eliminar un proveedor
-    RedVeterinaria.prototype.eliminarProveedor = function (nombre) {
-        var index = this.proveedores.findIndex(function (prov) { return prov.getNombreProveedor() === nombre; });
+    eliminarProveedor(nombre) {
+        const index = this.proveedores.findIndex(prov => prov.getNombreProveedor() === nombre);
         if (index >= 0) {
             this.proveedores.splice(index, 1);
             return true;
         }
         return false;
-    };
-    return RedVeterinaria;
-}());
+    }
+    // Método para obtener una veterinaria por ID
+    getVeterinariaPorId(id) {
+        return this.veterinarias.find(veterinaria => veterinaria.getIdVeterinaria() === id);
+    }
+}
 exports.RedVeterinaria = RedVeterinaria;
