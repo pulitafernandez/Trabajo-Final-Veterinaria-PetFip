@@ -52,23 +52,12 @@ class Cliente {
     }
     // Mostrar información del cliente
     getDatosCliente() {
-        let mascotasInfo = "";
-        if (this.mascotas.length > 0) {
-            mascotasInfo = `\nMascotas:`;
-            this.mascotas.forEach(mascota => {
-                mascotasInfo += `\nID Mascota: ${mascota.getIdPaciente()}, Nombre: ${mascota.getNombre()}, Especie: ${mascota.getEspecie()}`;
-            });
-        }
-        else {
-            mascotasInfo = "\nNo tiene mascotas registradas.";
-        }
         return `
         Cliente:
             ID: ${this.idCliente}
             Nombre: ${this.nombre}
             Teléfono: ${this.telefono}
-            Es VIP: ${this.esVip ? 'Sí' : 'No'}
-            Visitas: ${this.visitas}` + mascotasInfo;
+            Mascotas: ${this.mascotas.length > 0 ? this.mascotas.map(mascota => mascota.getDatosPaciente()).join("\n") : "No tiene ninguna mascota asociada"}`;
     }
     // Método para registrar visitas de un cliente
     registrarVisita() {
@@ -90,7 +79,7 @@ class Cliente {
         console.log(`VIP: ${this.esVip ? "Sí" : "No"}`);
         console.log(`Visitas: ${this.visitas}`);
     }
-    // Añadir una mascota al cliente
+    // Método para agregar una mascota al cliente
     agregarMascota(mascota) {
         this.mascotas.push(mascota);
     }

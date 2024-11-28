@@ -206,8 +206,6 @@ private agregarVeterinaria(): void {
             }
         });
     }
-    
-
 
      // Menú de opciones al seleccionar una veterinaria
      private mostrarMenuVeterinariaSeleccionada(veterinaria: Veterinaria): void {

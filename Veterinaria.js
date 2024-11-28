@@ -79,7 +79,7 @@ class Veterinaria {
             console.log("Mascota agregada correctamente.");
         }
         else {
-            console.log("Cliente no encontrado.");
+            console.log("Cliente no encon");
         }
     }
     // Método para verificar si un paciente ya existe

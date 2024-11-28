@@ -112,7 +112,7 @@ export class Cliente {
         console.log(`Visitas: ${this.visitas}`);
     }
 
-    // Añadir una mascota al cliente
+    // Método para agregar una mascota al cliente
     public agregarMascota(mascota: Paciente): void {
         this.mascotas.push(mascota);
     }
