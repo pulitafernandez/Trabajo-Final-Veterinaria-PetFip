@@ -436,6 +436,7 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
                             } else {
                                 console.log("El cliente no existe. Por favor, registre al cliente.");
                                 this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
+                                return;
                             }
     
                             this.gestionarPacientes(veterinaria);
