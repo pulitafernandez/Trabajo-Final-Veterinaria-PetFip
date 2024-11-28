@@ -67,10 +67,8 @@ export class Veterinaria {
             return "El cliente ya existe en la veterinaria.";
         }
 
-        const idUnico = Cliente.generarIdUnico(this.clientes);
-        cliente.setIdCliente(idUnico);
         this.clientes.push(cliente);
-        return "Cliente agregado con éxito.";
+    return "Cliente agregado con éxito.";
     }
 
     // Método para eliminar un cliente de la veterinaria

@@ -455,7 +455,6 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
             this.rl.question('Ingrese teléfono del cliente: ', (telefonoCliente) => {
                 // Generar un ID único para el cliente
                 const idCliente = Cliente.generarIdUnico(veterinaria.getClientes()); // Generamos un nuevo ID basado en los clientes existentes
-                console.log("estoy en agregar cleinte y paciente"+idCliente);
                 // Crear nuevo cliente con nombre y teléfono
                 const cliente = new Cliente(idCliente, nombreCliente, Number(telefonoCliente));
     
