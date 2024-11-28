@@ -426,7 +426,8 @@ var Menu = /** @class */ (function () {
                             }
                             else {
                                 console.log("El cliente no existe. Por favor, registre al cliente.");
-                                _this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
+                                this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
+                                return;
                             }
                             _this.gestionarPacientes(veterinaria);
                         });
