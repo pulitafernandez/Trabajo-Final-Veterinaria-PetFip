@@ -130,11 +130,11 @@ class Menu {
     // Función para eliminar una veterinaria
     eliminarVeterinaria() {
         const veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a eliminar: ', (nombreVet) => {
-            const index = veterinarias.findIndex((vet) => vet.getNombreVeterinaria() === nombreVet);
+        this.rl.question('Ingrese el id de la veterinaria a eliminar: ', (idVeterinaria) => {
+            const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
             if (index !== -1) {
-                this.rl.question('¿Está seguro de eliminar la veterinaria? (sí/no): ', (respuesta) => {
-                    if (respuesta.toLowerCase() === 'sí' || respuesta.toLowerCase() === 'si') {
+                this.rl.question('¿Está seguro de eliminar la veterinaria? (s/n)', (respuesta) => {
+                    if (respuesta.toLowerCase() === 's') {
                         veterinarias.splice(index, 1);
                         console.log("Veterinaria Eliminada");
                         this.redVet1.actualizarVeterinarias(veterinarias);
@@ -155,8 +155,8 @@ class Menu {
     // Función para modificar una veterinaria
     modificarVeterinaria() {
         const veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese nombre de la veterinaria a modificar: ', (nombreVet) => {
-            const index = veterinarias.findIndex((vet) => vet.getNombreVeterinaria() === nombreVet);
+        this.rl.question('Ingrese el id de la veterinaria a modificar: ', (idVeterinaria) => {
+            const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
             if (index !== -1) {
                 this.rl.question('Ingrese nuevo nombre de la veterinaria: ', (nombreVet1) => {
                     this.rl.question('Ingrese Nueva Direccion Veterinaria: ', (direccionVet1) => {
@@ -319,8 +319,8 @@ class Menu {
     }
     // Función para eliminar un cliente
     eliminarCliente(veterinaria) {
-        this.rl.question('Ingrese nombre del cliente a eliminar: ', (nombreCliente) => {
-            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+        this.rl.question('Ingrese el id del cliente a eliminar: ', (idCliente) => {
+            const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
             if (cliente) {
                 veterinaria.eliminarCliente(cliente);
                 console.log("Cliente eliminado.");
@@ -334,8 +334,8 @@ class Menu {
     }
     // Función para modificar un cliente
     modificarCliente(veterinaria) {
-        this.rl.question('Ingrese nombre del cliente a modificar: ', (nombreCliente) => {
-            const cliente = veterinaria.getClientePorNombre(nombreCliente);
+        this.rl.question('Ingrese el id del cliente a modificar: ', (idCliente) => {
+            const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
             if (cliente) {
                 this.rl.question('Ingrese nuevo nombre del cliente: ', (nuevoNombre) => {
                     this.rl.question('Ingrese nuevo teléfono del cliente: ', (nuevoTelefono) => {
@@ -415,7 +415,7 @@ class Menu {
     // Función para agregar un paciente
     agregarPaciente(veterinaria) {
         this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
-            this.rl.question('Ingrese especie del paciente: ', (especiePaciente) => {
+            this.pedirEspeciePaciente((especiePaciente) => {
                 this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
                     const idCliente = parseInt(idDueño, 10);
                     // Verificar si ya existe un paciente con el mismo nombre y teléfono
@@ -432,6 +432,20 @@ class Menu {
                     }
                 });
             });
+        });
+    }
+    // Función para pedir la especie y validar que sea válida
+    pedirEspeciePaciente(callback) {
+        this.rl.question('Ingrese especie del paciente (perro, gato, exotico): ', (especiePaciente) => {
+            // Validar si la especie ingresada es válida
+            const especiesValidas = ["perro", "gato", "exotico"];
+            if (especiesValidas.includes(especiePaciente.toLowerCase())) {
+                callback(especiePaciente); // Si la especie es válida, continuar con el flujo
+            }
+            else {
+                console.log("Especie inválida. Debe ser 'perro', 'gato' o 'exotico'.");
+                this.pedirEspeciePaciente(callback); // Si no es válida, pedir de nuevo
+            }
         });
     }
     // Función para eliminar un paciente
@@ -527,8 +541,8 @@ class Menu {
     // Función para eliminar un proveedor
     eliminarProveedor() {
         const proveedores = this.redVet1.getProveedores();
-        this.rl.question('Ingrese el nombre del proveedor a eliminar: ', (nombreProv) => {
-            const index = proveedores.findIndex((prov) => prov.getNombreProveedor() === nombreProv);
+        this.rl.question('Ingrese el id del proveedor a eliminar: ', (idProveedor) => {
+            const index = proveedores.findIndex((prov) => prov.getIdProveedor() === Number(idProveedor));
             if (index !== -1) {
                 this.rl.question('¿Está seguro de eliminar el proveedor? (s/n)', (respuesta) => {
                     if (respuesta.toLowerCase() === 's') {
@@ -552,8 +566,8 @@ class Menu {
     // Función para modificar un proveedor
     modificarProveedor() {
         const proveedores = this.redVet1.getProveedores();
-        this.rl.question('Ingrese nombre del proveedor a modificar: ', (nombreProv) => {
-            const index = proveedores.findIndex((prov) => prov.getNombreProveedor() === nombreProv);
+        this.rl.question('Ingrese el id del proveedor a modificar: ', (idProveedor) => {
+            const index = proveedores.findIndex((prov) => prov.getIdProveedor() === Number(idProveedor));
             if (index !== -1) {
                 this.rl.question('Ingrese nuevo nombre del proveedor: ', (nombreProv1) => {
                     this.rl.question('Ingrese nueva dirección del proveedor: ', (direccionProv1) => {

@@ -88,6 +88,10 @@ class Veterinaria {
     getPacientePorNombre(nombre) {
         return this.pacientes.find(paciente => paciente.getNombre() === nombre);
     }
+    // Método para obtener un paciente por id
+    getPacientePorId(idPaciente) {
+        return this.pacientes.find(paciente => paciente.getIdPaciente() === idPaciente);
+    }
     // Método para eliminar un paciente de la veterinaria
     eliminarPaciente(paciente) {
         this.pacientes = this.pacientes.filter(p => p !== paciente);

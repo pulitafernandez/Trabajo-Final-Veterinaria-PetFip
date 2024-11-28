@@ -94,7 +94,6 @@ export class Veterinaria {
     }
 
     // Métodos para manejar pacientes
-
     // Método para agregar un paciente a la veterinaria
     public agregarPaciente(paciente: Paciente): void {
         this.pacientes.push(paciente);
@@ -117,6 +116,12 @@ public existePaciente(nombre: string, especie: string, idCliente: number): boole
     // Método para obtener un paciente por nombre
     public getPacientePorNombre(nombre: string): Paciente | undefined {
         return this.pacientes.find(paciente => paciente.getNombre() === nombre);
+    }
+
+    
+    // Método para obtener un paciente por id
+    public getPacientePorId(idPaciente: number): Paciente | undefined {
+        return this.pacientes.find(paciente => paciente.getIdPaciente() === idPaciente);
     }
 
     // Método para eliminar un paciente de la veterinaria
