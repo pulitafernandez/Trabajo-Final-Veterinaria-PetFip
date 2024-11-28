@@ -421,12 +421,12 @@ var Menu = /** @class */ (function () {
                                 // Si el cliente existe, generar un ID único para el paciente y crear el paciente
                                 var idMascota = Paciente_1.Paciente.generarIdUnico(veterinaria.getPacientes());
                                 var paciente = new Paciente_1.Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
-                                veterinaria.agregarPaciente(paciente);
+                                veterinaria.agregarPaciente(paciente, cliente);
                                 console.log("Paciente agregado: " + paciente.getDatosPaciente());
                             }
                             else {
                                 console.log("El cliente no existe. Por favor, registre al cliente.");
-                                this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
+                                _this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
                                 return;
                             }
                             _this.gestionarPacientes(veterinaria);
@@ -448,6 +448,7 @@ var Menu = /** @class */ (function () {
             _this.rl.question('Ingrese teléfono del cliente: ', function (telefonoCliente) {
                 // Generar un ID único para el cliente
                 var idCliente = Cliente_1.Cliente.generarIdUnico(veterinaria.getClientes()); // Generamos un nuevo ID basado en los clientes existentes
+                console.log("estoy en agregar cleinte y paciente" + idCliente);
                 // Crear nuevo cliente con nombre y teléfono
                 var cliente = new Cliente_1.Cliente(idCliente, nombreCliente, Number(telefonoCliente));
                 // Agregar cliente a la veterinaria
@@ -455,7 +456,7 @@ var Menu = /** @class */ (function () {
                 // Crear paciente
                 var idMascota = Paciente_1.Paciente.generarIdUnico(veterinaria.getPacientes());
                 var paciente = new Paciente_1.Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
-                veterinaria.agregarPaciente(paciente);
+                veterinaria.agregarPaciente(paciente, cliente);
                 console.log("Cliente y paciente agregados: " + paciente.getDatosPaciente());
                 _this.gestionarPacientes(veterinaria);
             });

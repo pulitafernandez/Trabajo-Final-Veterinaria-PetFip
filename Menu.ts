@@ -431,7 +431,7 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
                                 // Si el cliente existe, generar un ID único para el paciente y crear el paciente
                                 const idMascota = Paciente.generarIdUnico(veterinaria.getPacientes());
                                 const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
-                                veterinaria.agregarPaciente(paciente);
+                                veterinaria.agregarPaciente(paciente, cliente);
                                 console.log("Paciente agregado: " + paciente.getDatosPaciente());
                             } else {
                                 console.log("El cliente no existe. Por favor, registre al cliente.");
@@ -457,7 +457,7 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
             this.rl.question('Ingrese teléfono del cliente: ', (telefonoCliente) => {
                 // Generar un ID único para el cliente
                 const idCliente = Cliente.generarIdUnico(veterinaria.getClientes()); // Generamos un nuevo ID basado en los clientes existentes
-    
+                console.log("estoy en agregar cleinte y paciente"+idCliente);
                 // Crear nuevo cliente con nombre y teléfono
                 const cliente = new Cliente(idCliente, nombreCliente, Number(telefonoCliente));
     
@@ -467,7 +467,7 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
                 // Crear paciente
                 const idMascota = Paciente.generarIdUnico(veterinaria.getPacientes());
                 const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
-                veterinaria.agregarPaciente(paciente);
+                veterinaria.agregarPaciente(paciente, cliente);
     
                 console.log("Cliente y paciente agregados: " + paciente.getDatosPaciente());
                 this.gestionarPacientes(veterinaria);
