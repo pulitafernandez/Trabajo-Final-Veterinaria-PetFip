@@ -1,51 +1,47 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Proveedor = void 0;
-class Proveedor {
-    constructor(idProveedor, nombreProveedor, telefonoProveedor, direccionProveedor) {
+var Proveedor = /** @class */ (function () {
+    function Proveedor(idProveedor, nombreProveedor, telefonoProveedor, direccionProveedor) {
         this.idProveedor = idProveedor;
         this.nombreProveedor = nombreProveedor;
         this.telefonoProveedor = telefonoProveedor;
         this.direccionProveedor = direccionProveedor;
     }
     // Método para generar un ID único
-    static generarIdUnico(proveedores) {
-        let nuevoId = 0;
-        let idUnico = false;
+    Proveedor.generarIdUnico = function (proveedores) {
+        var nuevoId = 0;
+        var idUnico = false;
         while (!idUnico) {
             nuevoId = Math.floor(Math.random() * 1000000);
-            idUnico = !proveedores.some(prov => prov.getIdProveedor() === nuevoId);
+            idUnico = !proveedores.some(function (prov) { return prov.getIdProveedor() === nuevoId; });
         }
         return nuevoId;
-    }
-    getIdProveedor() {
+    };
+    Proveedor.prototype.getIdProveedor = function () {
         return this.idProveedor;
-    }
-    getNombreProveedor() {
+    };
+    Proveedor.prototype.getNombreProveedor = function () {
         return this.nombreProveedor;
-    }
-    setNombreProveedor(nombre) {
+    };
+    Proveedor.prototype.setNombreProveedor = function (nombre) {
         this.nombreProveedor = nombre;
-    }
-    getTelefonoProveedor() {
+    };
+    Proveedor.prototype.getTelefonoProveedor = function () {
         return this.telefonoProveedor;
-    }
-    setTelefonoProveedor(telefono) {
+    };
+    Proveedor.prototype.setTelefonoProveedor = function (telefono) {
         this.telefonoProveedor = telefono;
-    }
-    getDireccionProveedor() {
+    };
+    Proveedor.prototype.getDireccionProveedor = function () {
         return this.direccionProveedor;
-    }
-    setDireccion(direccion) {
+    };
+    Proveedor.prototype.setDireccion = function (direccion) {
         this.direccionProveedor = direccion;
-    }
-    getDatosProveedor() {
-        return `
-Proveedor:
-  ID: ${this.idProveedor}
-  Nombre: ${this.nombreProveedor}
-  Teléfono: ${this.telefonoProveedor}
-  Dirección: ${this.direccionProveedor}`;
-    }
-}
+    };
+    Proveedor.prototype.getDatosProveedor = function () {
+        return "\nProveedor:\n  ID: ".concat(this.idProveedor, "\n  Nombre: ").concat(this.nombreProveedor, "\n  Tel\u00E9fono: ").concat(this.telefonoProveedor, "\n  Direcci\u00F3n: ").concat(this.direccionProveedor);
+    };
+    return Proveedor;
+}());
 exports.Proveedor = Proveedor;

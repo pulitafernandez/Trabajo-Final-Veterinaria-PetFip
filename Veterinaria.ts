@@ -95,13 +95,14 @@ export class Veterinaria {
 
     // Métodos para manejar pacientes
     // Método para agregar un paciente a la veterinaria
-    public agregarPaciente(paciente: Paciente): void {
-        const cliente = this.obtenerClientePorId(paciente.getIdCliente());
+    public agregarPaciente(paciente: Paciente, cliente:Cliente): void {
+        
         if (cliente) {
             cliente.agregarMascota(paciente);
             this.pacientes.push(paciente);
             console.log("Mascota agregada correctamente.");
         } else {
+            console.log("estoy en agregaR PACIENTE"+cliente);
             console.log("Cliente no encontrado.");
         }
     }
