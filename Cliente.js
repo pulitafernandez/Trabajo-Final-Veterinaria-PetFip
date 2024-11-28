@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Cliente = void 0;
-class Cliente {
-    constructor(idCliente, nombre, telefono) {
+var Cliente = /** @class */ (function () {
+    function Cliente(idCliente, nombre, telefono) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -11,86 +11,81 @@ class Cliente {
         this.mascotas = [];
     }
     // Función para generar un ID único
-    static generarIdUnico(clientes) {
-        let nuevoId = 0;
-        let idUnico = false;
+    Cliente.generarIdUnico = function (clientes) {
+        var nuevoId = 0;
+        var idUnico = false;
         while (!idUnico) {
             nuevoId = Math.floor(Math.random() * 1000000);
-            idUnico = !clientes.some(cliente => cliente.getIdCliente() === nuevoId);
+            idUnico = !clientes.some(function (cliente) { return cliente.getIdCliente() === nuevoId; });
         }
         return nuevoId;
-    }
-    getIdCliente() {
+    };
+    Cliente.prototype.getIdCliente = function () {
         return this.idCliente;
-    }
-    setIdCliente(idCliente) {
+    };
+    Cliente.prototype.setIdCliente = function (idCliente) {
         this.idCliente = idCliente;
-    }
-    getNombre() {
+    };
+    Cliente.prototype.getNombre = function () {
         return this.nombre;
-    }
-    setNombre(nombre) {
+    };
+    Cliente.prototype.setNombre = function (nombre) {
         this.nombre = nombre;
-    }
-    getTelefono() {
+    };
+    Cliente.prototype.getTelefono = function () {
         return this.telefono;
-    }
-    setTelefono(telefono) {
+    };
+    Cliente.prototype.setTelefono = function (telefono) {
         this.telefono = telefono;
-    }
-    getEsVip() {
+    };
+    Cliente.prototype.getEsVip = function () {
         return this.esVip;
-    }
-    setEsVip(esVip) {
+    };
+    Cliente.prototype.setEsVip = function (esVip) {
         this.esVip = esVip;
-    }
-    getMascotas() {
+    };
+    Cliente.prototype.getMascotas = function () {
         return this.mascotas;
-    }
-    setMascotas(mascotas) {
+    };
+    Cliente.prototype.setMascotas = function (mascotas) {
         this.mascotas = mascotas;
-    }
+    };
     // Mostrar información del cliente
-    getDatosCliente() {
-        return `
-        Cliente:
-            ID: ${this.idCliente}
-            Nombre: ${this.nombre}
-            Teléfono: ${this.telefono}
-            Es VIP: ${this.esVip ? 'Sí' : 'No'}
-            Visitas: ${this.visitas}`;
-    }
+    Cliente.prototype.getDatosCliente = function () {
+        return "\n        Cliente:\n            ID: ".concat(this.idCliente, "\n            Nombre: ").concat(this.nombre, "\n            Tel\u00E9fono: ").concat(this.telefono, "\n            Es VIP: ").concat(this.esVip ? 'Sí' : 'No', "\n            Visitas: ").concat(this.visitas);
+    };
     // Método para registrar visitas de un cliente
-    registrarVisita() {
+    Cliente.prototype.registrarVisita = function () {
         this.visitas++;
         if (this.visitas >= 5) {
             this.esVip = true;
         }
-    }
+    };
     // Mostrar cliente junto con sus mascotas
-    mostrarCliente() {
-        console.log(`Cliente: ${this.nombre}`);
-        console.log(`Teléfono: ${this.telefono}`);
+    Cliente.prototype.mostrarCliente = function () {
+        console.log("Cliente: ".concat(this.nombre));
+        console.log("Tel\u00E9fono: ".concat(this.telefono));
         if (this.mascotas.length > 0) {
-            console.log(`Mascotas: ${this.mascotas.map(mascota => mascota.getNombre()).join(", ")}`);
+            console.log("Mascotas: ".concat(this.mascotas.map(function (mascota) { return mascota.getNombre(); }).join(", ")));
         }
         else {
             console.log("No tiene mascotas registradas.");
         }
-        console.log(`VIP: ${this.esVip ? "Sí" : "No"}`);
-        console.log(`Visitas: ${this.visitas}`);
-    }
+        console.log("VIP: ".concat(this.esVip ? "Sí" : "No"));
+        console.log("Visitas: ".concat(this.visitas));
+    };
     // Añadir una mascota al cliente
-    agregarMascota(mascota) {
+    Cliente.prototype.agregarMascota = function (mascota) {
         this.mascotas.push(mascota);
-    }
+    };
     // Eliminar una mascota del cliente
-    eliminarMascota(idMascota) {
-        this.mascotas = this.mascotas.filter(mascota => mascota.getIdPaciente() !== idMascota);
-    }
+    Cliente.prototype.eliminarMascota = function (idMascota) {
+        this.mascotas = this.mascotas.filter(function (mascota) { return mascota.getIdPaciente() !== idMascota; });
+    };
     // Comprobar si el cliente es VIP
-    esVipCliente() {
+    Cliente.prototype.esVipCliente = function () {
         return this.esVip ? "VIP" : "No es VIP";
-    }
-}
+    };
+    return Cliente;
+}());
 exports.Cliente = Cliente;

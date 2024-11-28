@@ -414,28 +414,65 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
     }
 
     // Función para agregar un paciente
-private agregarPaciente(veterinaria: Veterinaria): void {
-    this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
-        this.pedirEspeciePaciente((especiePaciente) => {
-            this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
-                const idCliente = parseInt(idDueño, 10);
-
-            // Verificar si ya existe un paciente con el mismo nombre y teléfono
-            if (veterinaria.existePaciente(nombrePaciente, especiePaciente, idCliente)) {
-                    console.log("El paciente ya existe en la veterinaria.");
-                    this.gestionarPacientes(veterinaria);
-                } else {
-                    const idUnico = Paciente.generarIdUnico(veterinaria.getPacientes());
-
-                    const paciente = new Paciente(idUnico, idCliente, nombrePaciente, especiePaciente);
-                    veterinaria.agregarPaciente(paciente);
-                    console.log("Paciente agregado: " + paciente.getDatosPaciente());
-                    this.gestionarPacientes(veterinaria);
-                }
+    private agregarPaciente(veterinaria: Veterinaria): void {
+        this.rl.question('Ingrese nombre del paciente: ', (nombrePaciente) => {
+            this.pedirEspeciePaciente((especiePaciente) => {
+                // Preguntar si el cliente está registrado
+                this.rl.question('¿El dueño ya está registrado? (sí/no): ', (respuesta) => {
+                    if (respuesta.toLowerCase() === 'sí' || respuesta.toLowerCase() === 'si') {
+                        // Si el cliente está registrado, pedir el ID
+                        this.rl.question('Ingrese ID del dueño (cliente) del paciente: ', (idDueño) => {
+                            const idCliente = parseInt(idDueño, 10);
+    
+                            // Verificar si el cliente existe
+                            const cliente = veterinaria.obtenerClientePorId(idCliente);
+    
+                            if (cliente) {
+                                // Si el cliente existe, generar un ID único para el paciente y crear el paciente
+                                const idMascota = Paciente.generarIdUnico(veterinaria.getPacientes());
+                                const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
+                                veterinaria.agregarPaciente(paciente);
+                                console.log("Paciente agregado: " + paciente.getDatosPaciente());
+                            } else {
+                                console.log("El cliente no existe. Por favor, registre al cliente.");
+                                this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
+                            }
+    
+                            this.gestionarPacientes(veterinaria);
+                        });
+                    } else {
+                        // Si el cliente no está registrado, crear uno nuevo
+                        this.agregarClienteYPaciente(veterinaria, nombrePaciente, especiePaciente);
+                    }
+                });
             });
         });
-    });
-}
+    }
+
+    // Función para agregar un nuevo cliente y paciente
+    private agregarClienteYPaciente(veterinaria: Veterinaria, nombrePaciente: string, especiePaciente: string): void {
+        // No pedimos el ID del cliente, ya que lo vamos a generar automáticamente
+        this.rl.question('Ingrese nombre del cliente: ', (nombreCliente) => {
+            this.rl.question('Ingrese teléfono del cliente: ', (telefonoCliente) => {
+                // Generar un ID único para el cliente
+                const idCliente = Cliente.generarIdUnico(veterinaria.getClientes()); // Generamos un nuevo ID basado en los clientes existentes
+    
+                // Crear nuevo cliente con nombre y teléfono
+                const cliente = new Cliente(idCliente, nombreCliente, Number(telefonoCliente));
+    
+                // Agregar cliente a la veterinaria
+                veterinaria.agregarCliente(cliente);
+    
+                // Crear paciente
+                const idMascota = Paciente.generarIdUnico(veterinaria.getPacientes());
+                const paciente = new Paciente(idMascota, idCliente, nombrePaciente, especiePaciente);
+                veterinaria.agregarPaciente(paciente);
+    
+                console.log("Cliente y paciente agregados: " + paciente.getDatosPaciente());
+                this.gestionarPacientes(veterinaria);
+            });
+        });
+    }
 
     // Función para pedir la especie y validar que sea válida
     private pedirEspeciePaciente(callback: (especie: string) => void): void {
@@ -454,8 +491,8 @@ private agregarPaciente(veterinaria: Veterinaria): void {
 
     // Función para eliminar un paciente
     private eliminarPaciente(veterinaria: Veterinaria): void {
-        this.rl.question('Ingrese nombre del paciente a eliminar: ', (nombrePaciente) => {
-            const paciente = veterinaria.getPacientePorNombre(nombrePaciente);
+        this.rl.question('Ingrese el id del paciente a eliminar: ', (idPaciente) => {
+            const paciente = veterinaria.getPacientePorId(Number(idPaciente));
             if (paciente) {
                 veterinaria.eliminarPaciente(paciente);
                 console.log("Paciente eliminado.");
