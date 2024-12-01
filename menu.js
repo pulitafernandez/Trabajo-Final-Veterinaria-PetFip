@@ -467,18 +467,18 @@ class Menu {
             });
         });
     }
-    // Función para pedir la especie y validar que sea válida
+    // Función para pedir la especie y registrar según lo ingresado
     pedirEspeciePaciente(callback) {
-        this.rl.question('Ingrese especie del paciente (perro, gato, exotico): ', (especiePaciente) => {
-            // Validar si la especie ingresada es válida
-            const especiesValidas = ["perro", "gato", "exotico"];
-            if (especiesValidas.includes(especiePaciente.toLowerCase())) {
-                callback(especiePaciente); // Si la especie es válida, continuar con el flujo
+        this.rl.question('Ingrese especie del paciente: ', (especiePaciente) => {
+            let especie;
+            // Clasificar la especie
+            if (especiePaciente.toLowerCase() === "perro" || especiePaciente.toLowerCase() === "gato") {
+                especie = especiePaciente;
             }
             else {
-                console.log("Especie inválida. Debe ser 'perro', 'gato' o 'exotico'.");
-                this.pedirEspeciePaciente(callback); // Si no es válida, pedir de nuevo
+                especie = "exotico"; // Registrar como "exotico" si no es "perro" o "gato"
             }
+            callback(especie);
         });
     }
     // Función para eliminar un paciente
