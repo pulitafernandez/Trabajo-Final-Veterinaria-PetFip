@@ -73,7 +73,6 @@ var Veterinaria = /** @class */ (function () {
             console.log("Mascota agregada correctamente.");
         }
         else {
-            console.log("estoy en agregaR PACIENTE" + cliente);
             console.log("Cliente no encontrado.");
         }
     };
@@ -109,7 +108,7 @@ var Veterinaria = /** @class */ (function () {
         }
         else {
             this.clientes.forEach(function (cliente) {
-                console.log(cliente.getDatosCliente()); // Mostrar cliente con mascotas
+                console.log(cliente.getDatosCliente());
             });
         }
     };
