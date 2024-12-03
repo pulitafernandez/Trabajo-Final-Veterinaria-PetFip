@@ -121,8 +121,8 @@ private eliminarVeterinaria(): void {
             const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
 
             if (index !== -1) {
-                console.log(`Veterinaria seleccionada: ${veterinarias[index].getNombreVeterinaria()}`);
-                this.rl.question('¿Está seguro de eliminar esta veterinaria? (si/no): ', (respuesta) => {
+                console.log(`Veterinaria seleccionada: ${veterinarias[index].getNombreVeterinaria()} - ${veterinarias[index].getDireccionVeterinaria()}`);
+                this.rl.question('¿Está seguro de eliminar esta veterinaria? (Si/No): ', (respuesta) => {
                     if (respuesta.trim().toLowerCase() === 'si') {
                         veterinarias.splice(index, 1);
                         this.redVet1.actualizarVeterinarias(veterinarias);
