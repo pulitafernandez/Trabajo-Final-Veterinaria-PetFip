@@ -388,8 +388,9 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
         console.log("\nMenú de Pacientes");
         console.log("1. Agregar Paciente");
         console.log("2. Eliminar Paciente");
-        console.log("3. Ver todos los Pacientes");
-        console.log("4. Volver al menú de Veterinaria");
+        console.log("3. Modificar Paciente");
+        console.log("4. Ver todos los Pacientes");
+        console.log("5. Volver al menú de Veterinaria");
         this.rl.question("\nIngrese su opción: ", (opcion: string) => {
             switch (opcion) {
                 case "1":
@@ -398,10 +399,13 @@ private registrarNuevaVisita(veterinaria: Veterinaria): void {
                 case "2":
                     this.eliminarPaciente(veterinaria);
                     break;
-                case "3":
-                    this.verPacientes(veterinaria);
+                    case "3":
+                    this.modificarPaciente(veterinaria);
                     break;
                 case "4":
+                    this.verPacientes(veterinaria);
+                    break;
+                case "5":
                     this.mostrarMenuVeterinariaSeleccionada(veterinaria);
                     break;
                 default:
@@ -488,8 +492,46 @@ private pedirEspeciePaciente(callback: (especie: string) => void): void {
     });
 }
 
+private modificarPaciente(veterinaria: Veterinaria): void {
+    const pedirIdPaciente = (): void => {
+        this.rl.question('Ingrese el ID del paciente a modificar: ', (idPaciente) => {
+            const paciente = veterinaria.getPacientePorId(Number(idPaciente));
+            if (paciente) {
+                console.log(`Paciente seleccionado: ${paciente.getDatosPaciente()}`);
+                this.rl.question('Ingrese el nuevo nombre del paciente: ', (nuevoNombre) => {
+                    this.rl.question('Ingrese la nueva especie del paciente: ', (nuevaEspecie) => {
+                        
+                        // Actualizar el nombre 
+                        if (nuevoNombre.trim()) {
+                            paciente.setNombre(nuevoNombre);
+                        }
 
+                        // Actualizar la especie
+                        if (nuevaEspecie.trim()) {
+                            paciente.setEspecie(nuevaEspecie);
+                        }
 
+                        console.log("Paciente modificado con éxito.");
+                        console.log(paciente.getDatosPaciente());
+                        this.gestionarPacientes(veterinaria);
+                    });
+                });
+            } else {
+                console.log("Paciente no encontrado.");
+                this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                    if (respuesta.trim().toLowerCase() === 'si') {
+                        pedirIdPaciente(); // Reintentar
+                    } else {
+                        this.gestionarPacientes(veterinaria); // Volver al menú anterior
+                    }
+                });
+            }
+        });
+    };
+
+    // Inicia el proceso de pedir ID
+    pedirIdPaciente();
+}
 
     // Función para eliminar un paciente
     private eliminarPaciente(veterinaria: Veterinaria): void {
