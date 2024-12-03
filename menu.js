@@ -115,7 +115,7 @@ class Menu {
                             this.mostrarMenuVeterinarias();
                         }
                     });
-                    return; // Salimos de la función para evitar agregar duplicados
+                    return;
                 }
                 // Generar un ID único para la nueva veterinaria
                 const idVeterinaria = Veterinaria_1.Veterinaria.generarIdUnico(this.redVet1.getVeterinarias());
@@ -130,50 +130,81 @@ class Menu {
     // Función para eliminar una veterinaria
     eliminarVeterinaria() {
         const veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese el id de la veterinaria a eliminar: ', (idVeterinaria) => {
-            const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
-            if (index !== -1) {
-                this.rl.question('¿Está seguro de eliminar la veterinaria? (s/n)', (respuesta) => {
-                    if (respuesta.toLowerCase() === 's') {
-                        veterinarias.splice(index, 1);
-                        console.log("Veterinaria Eliminada");
-                        this.redVet1.actualizarVeterinarias(veterinarias);
+        const pedirIdVeterinaria = () => {
+            this.rl.question('Ingrese el id de la veterinaria a eliminar: ', (idVeterinaria) => {
+                const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
+                if (index !== -1) {
+                    console.log(`Veterinaria seleccionada: ${veterinarias[index].getNombreVeterinaria()}`);
+                    this.rl.question('¿Está seguro de eliminar esta veterinaria? (si/no): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            veterinarias.splice(index, 1);
+                            this.redVet1.actualizarVeterinarias(veterinarias);
+                            console.log("Veterinaria eliminada con éxito.");
+                        }
+                        else {
+                            console.log("Eliminación cancelada.");
+                        }
                         this.mostrarMenuVeterinarias();
-                    }
-                    else {
-                        console.log("Operación cancelada");
-                        this.mostrarMenuVeterinarias();
-                    }
-                });
-            }
-            else {
-                console.log("Veterinaria no encontrada");
-                this.mostrarMenuVeterinarias();
-            }
-        });
+                    });
+                }
+                else {
+                    console.log("Veterinaria no encontrada.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdVeterinaria(); // Reintentar
+                        }
+                        else {
+                            this.mostrarMenuVeterinarias();
+                        }
+                    });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdVeterinaria();
     }
     // Función para modificar una veterinaria
     modificarVeterinaria() {
         const veterinarias = this.redVet1.getVeterinarias();
-        this.rl.question('Ingrese el id de la veterinaria a modificar: ', (idVeterinaria) => {
-            const index = veterinarias.findIndex((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
-            if (index !== -1) {
-                this.rl.question('Ingrese nuevo nombre de la veterinaria: ', (nombreVet1) => {
-                    this.rl.question('Ingrese Nueva Direccion Veterinaria: ', (direccionVet1) => {
-                        veterinarias[index].setNombreVeterinaria(nombreVet1);
-                        veterinarias[index].setDireccion(direccionVet1);
-                        this.redVet1.actualizarVeterinarias(veterinarias);
-                        console.log("Veterinaria modificada");
-                        veterinarias.forEach((vet) => console.log(vet.getDatosVeterinaria()));
-                        this.mostrarMenuVeterinarias();
+        const pedirIdVeterinaria = () => {
+            this.rl.question('Ingrese el id de la veterinaria a modificar: ', (idVeterinaria) => {
+                const veterinaria = veterinarias.find((vet) => vet.getIdVeterinaria() === Number(idVeterinaria));
+                if (veterinaria) {
+                    console.log(`Veterinaria seleccionada: ${veterinaria.getNombreVeterinaria()} - ${veterinaria.getDireccionVeterinaria()}`);
+                    this.rl.question('¿Es la veterinaria correcta? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            this.rl.question('Ingrese nuevo nombre de la veterinaria: ', (nuevoNombre) => {
+                                this.rl.question('Ingrese nueva dirección de la veterinaria: ', (nuevaDireccion) => {
+                                    veterinaria.setNombreVeterinaria(nuevoNombre);
+                                    veterinaria.setDireccion(nuevaDireccion);
+                                    this.redVet1.actualizarVeterinarias(veterinarias);
+                                    console.log("Veterinaria modificada.");
+                                    console.log(veterinaria.getDatosVeterinaria());
+                                    this.mostrarMenuVeterinarias();
+                                });
+                            });
+                        }
+                        else {
+                            // Volver a pedir ID
+                            pedirIdVeterinaria();
+                        }
                     });
-                });
-            }
-            else {
-                console.log("Veterinaria no encontrada");
-                this.mostrarMenuVeterinarias();
-            }
-        });
+                }
+                else {
+                    console.log("Veterinaria no encontrada.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdVeterinaria(); // Reintentar
+                        }
+                        else {
+                            this.mostrarMenuVeterinarias();
+                        }
+                    });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdVeterinaria();
     }
     // Función para imprimir la lista de veterinarias
     imprimirListaVeterinarias() {
@@ -207,7 +238,7 @@ class Menu {
                 }
                 else {
                     console.log("No se ha encontrado una veterinaria con ese ID.");
-                    this.rl.question('¿Quiere agregar otro ID de veterinaria? (sí/no): ', (respuesta) => {
+                    this.rl.question('¿Quiere agregar otro ID de veterinaria? (Sí/No): ', (respuesta) => {
                         if (respuesta.toLowerCase() === 'sí' || respuesta.toLowerCase() === 'si') {
                             this.seleccionarveterinaria();
                         }
@@ -278,6 +309,7 @@ class Menu {
             }
         });
     }
+    //Funcion para agregar un cliente nuevo
     agregarCliente(veterinaria) {
         this.rl.question('Ingrese nombre del cliente: ', (nombreCliente) => {
             this.rl.question('Ingrese teléfono del cliente: ', (telefonoCliente) => {
@@ -291,7 +323,7 @@ class Menu {
                 const clienteExistente = veterinaria.getClientes().find(cliente => cliente.getNombre() === nombreCliente && cliente.getTelefono() === telefonoNumero);
                 if (clienteExistente) {
                     console.log(`Ya existe un cliente con el nombre "${nombreCliente}" y teléfono "${telefonoCliente}".`);
-                    this.rl.question('¿Desea registrar una nueva visita para este cliente? (sí/no): ', (respuesta) => {
+                    this.rl.question('¿Desea registrar una nueva visita para este cliente? (Sí/No): ', (respuesta) => {
                         if (respuesta.toLowerCase() === 'sí' || respuesta.toLowerCase() === 'si') {
                             clienteExistente.registrarVisita();
                             console.log(`Visita registrada con éxito para el cliente ${clienteExistente.getNombre()}.`);
@@ -319,45 +351,85 @@ class Menu {
     }
     // Función para eliminar un cliente
     eliminarCliente(veterinaria) {
-        this.rl.question('Ingrese el id del cliente a eliminar: ', (idCliente) => {
-            const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
-            if (cliente) {
-                veterinaria.eliminarCliente(cliente);
-                console.log("Cliente eliminado.");
-                this.gestionarClientes(veterinaria);
-            }
-            else {
-                console.log("Cliente no encontrado.");
-                this.gestionarClientes(veterinaria);
-            }
-        });
-    }
-    // Función para modificar un cliente
-    modificarCliente(veterinaria) {
-        this.rl.question('Ingrese el id del cliente a modificar: ', (idCliente) => {
-            const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
-            if (cliente) {
-                this.rl.question('Ingrese nuevo nombre del cliente: ', (nuevoNombre) => {
-                    this.rl.question('Ingrese nuevo teléfono del cliente: ', (nuevoTelefono) => {
-                        const telefonoNumero = parseInt(nuevoTelefono);
-                        if (isNaN(telefonoNumero)) {
-                            console.log("El teléfono ingresado no es válido.");
-                            this.modificarCliente(veterinaria);
+        const pedirIdCliente = () => {
+            this.rl.question('Ingrese el id del cliente a eliminar: ', (idCliente) => {
+                const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
+                if (cliente) {
+                    console.log(`Cliente seleccionado: ${cliente.getNombre()}`);
+                    this.rl.question('¿Está seguro de eliminar este cliente? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            veterinaria.eliminarCliente(cliente);
+                            console.log("Cliente eliminado con éxito.");
                         }
                         else {
-                            cliente.setNombre(nuevoNombre);
-                            cliente.setTelefono(telefonoNumero);
-                            console.log("Cliente modificado.");
+                            console.log("Eliminación cancelada.");
+                        }
+                        this.gestionarClientes(veterinaria);
+                    });
+                }
+                else {
+                    console.log("Cliente no encontrado.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdCliente(); // Reintentar
+                        }
+                        else {
                             this.gestionarClientes(veterinaria);
                         }
                     });
-                });
-            }
-            else {
-                console.log("Cliente no encontrado.");
-                this.gestionarClientes(veterinaria);
-            }
-        });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdCliente();
+    }
+    // Función para modificar un cliente
+    modificarCliente(veterinaria) {
+        const pedirIdCliente = () => {
+            this.rl.question('Ingrese el id del cliente a modificar: ', (idCliente) => {
+                const cliente = veterinaria.obtenerClientePorId(Number(idCliente));
+                if (cliente) {
+                    console.log(`Cliente seleccionado: ${cliente.getNombre()} - ${cliente.getTelefono()}`);
+                    this.rl.question('¿Es el cliente correcto? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            this.rl.question('Ingrese nuevo nombre del cliente: ', (nuevoNombre) => {
+                                this.rl.question('Ingrese nuevo teléfono del cliente: ', (nuevoTelefono) => {
+                                    const telefonoNumero = parseInt(nuevoTelefono);
+                                    if (isNaN(telefonoNumero)) {
+                                        console.log("El teléfono ingresado no es válido.");
+                                        this.modificarCliente(veterinaria);
+                                    }
+                                    else {
+                                        cliente.setNombre(nuevoNombre);
+                                        cliente.setTelefono(telefonoNumero);
+                                        console.log("Cliente modificado.");
+                                        console.log(cliente.getDatosCliente());
+                                        this.gestionarClientes(veterinaria);
+                                    }
+                                });
+                            });
+                        }
+                        else {
+                            // Volver a pedir ID
+                            pedirIdCliente();
+                        }
+                    });
+                }
+                else {
+                    console.log("Cliente no encontrado.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdCliente(); // Reintentar
+                        }
+                        else {
+                            this.gestionarClientes(veterinaria);
+                        }
+                    });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdCliente();
     }
     // Función para ver todos los clientes
     verClientes(veterinaria) {
@@ -485,26 +557,35 @@ class Menu {
             callback(especie);
         });
     }
+    //Funcion para modificar paciente
     modificarPaciente(veterinaria) {
         const pedirIdPaciente = () => {
             this.rl.question('Ingrese el ID del paciente a modificar: ', (idPaciente) => {
                 const paciente = veterinaria.getPacientePorId(Number(idPaciente));
                 if (paciente) {
                     console.log(`Paciente seleccionado: ${paciente.getDatosPaciente()}`);
-                    this.rl.question('Ingrese el nuevo nombre del paciente: ', (nuevoNombre) => {
-                        this.rl.question('Ingrese la nueva especie del paciente: ', (nuevaEspecie) => {
-                            // Actualizar el nombre 
-                            if (nuevoNombre.trim()) {
-                                paciente.setNombre(nuevoNombre);
-                            }
-                            // Actualizar la especie
-                            if (nuevaEspecie.trim()) {
-                                paciente.setEspecie(nuevaEspecie);
-                            }
-                            console.log("Paciente modificado con éxito.");
-                            console.log(paciente.getDatosPaciente());
-                            this.gestionarPacientes(veterinaria);
-                        });
+                    this.rl.question('¿Es el paciente correcto? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            this.rl.question('Ingrese el nuevo nombre del paciente: ', (nuevoNombre) => {
+                                this.rl.question('Ingrese la nueva especie del paciente: ', (nuevaEspecie) => {
+                                    // Actualizar el nombre 
+                                    if (nuevoNombre.trim()) {
+                                        paciente.setNombre(nuevoNombre);
+                                    }
+                                    // Actualizar la especie
+                                    if (nuevaEspecie.trim()) {
+                                        paciente.setEspecie(nuevaEspecie);
+                                    }
+                                    console.log("Paciente modificado con éxito.");
+                                    console.log(paciente.getDatosPaciente());
+                                    this.gestionarPacientes(veterinaria);
+                                });
+                            });
+                        }
+                        else {
+                            // Volver a pedir ID
+                            pedirIdPaciente();
+                        }
                     });
                 }
                 else {
@@ -514,7 +595,7 @@ class Menu {
                             pedirIdPaciente(); // Reintentar
                         }
                         else {
-                            this.gestionarPacientes(veterinaria); // Volver al menú anterior
+                            this.gestionarPacientes(veterinaria);
                         }
                     });
                 }
@@ -525,18 +606,37 @@ class Menu {
     }
     // Función para eliminar un paciente
     eliminarPaciente(veterinaria) {
-        this.rl.question('Ingrese el id del paciente a eliminar: ', (idPaciente) => {
-            const paciente = veterinaria.getPacientePorId(Number(idPaciente));
-            if (paciente) {
-                veterinaria.eliminarPaciente(paciente);
-                console.log("Paciente eliminado.");
-                this.gestionarPacientes(veterinaria);
-            }
-            else {
-                console.log("Paciente no encontrado.");
-                this.gestionarPacientes(veterinaria);
-            }
-        });
+        const pedirIdPaciente = () => {
+            this.rl.question('Ingrese el id del paciente a eliminar: ', (idPaciente) => {
+                const paciente = veterinaria.getPacientePorId(Number(idPaciente));
+                if (paciente) {
+                    console.log(`Paciente seleccionado: ${paciente.getDatosPaciente()}`);
+                    this.rl.question('¿Está seguro de que desea eliminar este paciente? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            veterinaria.eliminarPaciente(paciente);
+                            console.log("Paciente eliminado con éxito.");
+                        }
+                        else {
+                            console.log("Eliminación cancelada.");
+                        }
+                        this.gestionarPacientes(veterinaria);
+                    });
+                }
+                else {
+                    console.log("Paciente no encontrado.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdPaciente(); // Reintentar
+                        }
+                        else {
+                            this.gestionarPacientes(veterinaria);
+                        }
+                    });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdPaciente();
     }
     // Función para ver todos los pacientes
     verPacientes(veterinaria) {
@@ -586,6 +686,7 @@ class Menu {
         });
     }
     ;
+    //Funcion para agregar un proveedor
     agregarProveedor() {
         this.rl.question('Ingrese el nombre del proveedor: ', (nombreProv) => {
             this.rl.question('Ingrese el teléfono del proveedor: ', (telefonoProv) => {
@@ -616,53 +717,88 @@ class Menu {
     // Función para eliminar un proveedor
     eliminarProveedor() {
         const proveedores = this.redVet1.getProveedores();
-        this.rl.question('Ingrese el id del proveedor a eliminar: ', (idProveedor) => {
-            const index = proveedores.findIndex((prov) => prov.getIdProveedor() === Number(idProveedor));
-            if (index !== -1) {
-                this.rl.question('¿Está seguro de eliminar el proveedor? (s/n)', (respuesta) => {
-                    if (respuesta.toLowerCase() === 's') {
-                        proveedores.splice(index, 1);
-                        console.log("Proveedor Eliminado");
-                        this.redVet1.actualizarProveedores(proveedores);
+        const pedirIdProveedor = () => {
+            this.rl.question('Ingrese el id del proveedor a eliminar: ', (idProveedor) => {
+                const proveedor = proveedores.find((prov) => prov.getIdProveedor() === Number(idProveedor));
+                if (proveedor) {
+                    console.log(`Proveedor seleccionado: ${proveedor.getNombreProveedor()}`);
+                    this.rl.question('¿Está seguro de eliminar este proveedor? (s/n): ', (respuesta) => {
+                        if (respuesta.toLowerCase() === 's') {
+                            const eliminado = this.redVet1.eliminarProveedor(Number(idProveedor));
+                            if (eliminado) {
+                                console.log("Proveedor eliminado.");
+                            }
+                            else {
+                                console.log("No se pudo eliminar el proveedor.");
+                            }
+                        }
+                        else {
+                            console.log("Operación cancelada.");
+                        }
                         this.mostrarMenuProveedores();
-                    }
-                    else {
-                        console.log("Operación cancelada");
-                        this.mostrarMenuProveedores();
-                    }
-                });
-            }
-            else {
-                console.log("Proveedor no encontrado");
-                this.mostrarMenuProveedores();
-            }
-        });
+                    });
+                }
+                else {
+                    console.log("Proveedor no encontrado.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdProveedor(); // Reintentar
+                        }
+                        else {
+                            this.mostrarMenuProveedores();
+                        }
+                    });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdProveedor();
     }
     // Función para modificar un proveedor
     modificarProveedor() {
         const proveedores = this.redVet1.getProveedores();
-        this.rl.question('Ingrese el id del proveedor a modificar: ', (idProveedor) => {
-            const index = proveedores.findIndex((prov) => prov.getIdProveedor() === Number(idProveedor));
-            if (index !== -1) {
-                this.rl.question('Ingrese nuevo nombre del proveedor: ', (nombreProv1) => {
-                    this.rl.question('Ingrese nueva dirección del proveedor: ', (direccionProv1) => {
-                        this.rl.question('Ingrese nuevo teléfono del proveedor: ', (telefonoProv1) => {
-                            proveedores[index].setNombreProveedor(nombreProv1);
-                            proveedores[index].setDireccion(direccionProv1);
-                            proveedores[index].setTelefonoProveedor(parseInt(telefonoProv1));
-                            this.redVet1.actualizarProveedores(proveedores);
-                            console.log("Proveedor modificado");
-                            proveedores.forEach((prov) => console.log(prov.getDatosProveedor()));
-                            this.mostrarMenuProveedores();
-                        });
+        const pedirIdProveedor = () => {
+            this.rl.question('Ingrese el id del proveedor a modificar: ', (idProveedor) => {
+                const proveedor = proveedores.find((prov) => prov.getIdProveedor() === Number(idProveedor));
+                if (proveedor) {
+                    console.log(`Proveedor seleccionado: ${proveedor.getDatosProveedor()}`);
+                    this.rl.question('¿Es el proveedor correcto? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            this.rl.question('Ingrese nuevo nombre del proveedor: ', (nombreProv1) => {
+                                this.rl.question('Ingrese nueva dirección del proveedor: ', (direccionProv1) => {
+                                    this.rl.question('Ingrese nuevo teléfono del proveedor: ', (telefonoProv1) => {
+                                        proveedor.setNombreProveedor(nombreProv1);
+                                        proveedor.setDireccion(direccionProv1);
+                                        proveedor.setTelefonoProveedor(parseInt(telefonoProv1));
+                                        this.redVet1.actualizarProveedores(proveedores);
+                                        console.log("Proveedor modificado.");
+                                        console.log(proveedor.getDatosProveedor());
+                                        this.mostrarMenuProveedores();
+                                    });
+                                });
+                            });
+                        }
+                        else {
+                            // Volver a pedir ID
+                            pedirIdProveedor();
+                        }
                     });
-                });
-            }
-            else {
-                console.log("Proveedor no encontrado");
-                this.mostrarMenuProveedores();
-            }
-        });
+                }
+                else {
+                    console.log("Proveedor no encontrado.");
+                    this.rl.question('¿Desea intentar nuevamente con otro ID? (Si/No): ', (respuesta) => {
+                        if (respuesta.trim().toLowerCase() === 'si') {
+                            pedirIdProveedor(); // Reintentar
+                        }
+                        else {
+                            this.mostrarMenuProveedores();
+                        }
+                    });
+                }
+            });
+        };
+        // Inicia el proceso de pedir ID
+        pedirIdProveedor();
     }
     // Función para imprimir la lista de proveedores
     imprimirListaProveedores() {

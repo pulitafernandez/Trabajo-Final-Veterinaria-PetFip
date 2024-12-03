@@ -1,57 +1,61 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Paciente = void 0;
-var Paciente = /** @class */ (function () {
-    function Paciente(idMascota, idCliente, nombre, especie) {
+class Paciente {
+    constructor(idMascota, idCliente, nombre, especie) {
         this.idMascota = idMascota;
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.especie = especie;
     }
     // Función para generar un ID único
-    Paciente.generarIdUnico = function (pacientes) {
-        var nuevoId = 0;
-        var idUnico = false;
+    static generarIdUnico(pacientes) {
+        let nuevoId = 0;
+        let idUnico = false;
         while (!idUnico) {
             nuevoId = Math.floor(Math.random() * 1000000);
-            idUnico = !pacientes.some(function (paciente) { return paciente.getIdPaciente() === nuevoId; });
+            idUnico = !pacientes.some(paciente => paciente.getIdPaciente() === nuevoId);
         }
         return nuevoId;
-    };
-    Paciente.prototype.getIdPaciente = function () {
+    }
+    getIdPaciente() {
         return this.idMascota;
-    };
-    Paciente.prototype.setIdPaciente = function (idMascota) {
+    }
+    setIdPaciente(idMascota) {
         this.idMascota = idMascota;
-    };
-    Paciente.prototype.getIdCliente = function () {
+    }
+    getIdCliente() {
         return this.idCliente;
-    };
-    Paciente.prototype.setIdCliente = function (idCliente) {
+    }
+    setIdCliente(idCliente) {
         this.idCliente = idCliente;
-    };
-    Paciente.prototype.getNombre = function () {
+    }
+    getNombre() {
         return this.nombre;
-    };
-    Paciente.prototype.setNombre = function (nombre) {
+    }
+    setNombre(nombre) {
         this.nombre = nombre;
-    };
-    Paciente.prototype.getEspecie = function () {
+    }
+    getEspecie() {
         return this.especie;
-    };
-    Paciente.prototype.setEspecie = function (especie) {
+    }
+    setEspecie(especie) {
         this.especie = especie;
-    };
+    }
     // Mostrar información de la mascota junto con su dueño
-    Paciente.prototype.getDatosPaciente = function () {
-        return "\n        Mascota:\n            ID: ".concat(this.idMascota, "\n            Nombre: ").concat(this.nombre, "\n            Especie: ").concat(this.especie, "\n            ID del due\u00F1o: ").concat(this.idCliente);
-    };
+    getDatosPaciente() {
+        return `
+        Mascota:
+            ID: ${this.idMascota}
+            Nombre: ${this.nombre}
+            Especie: ${this.especie}
+            ID del dueño: ${this.idCliente}`;
+    }
     // Método para mostrar los detalles del paciente
-    Paciente.prototype.mostrarPaciente = function () {
-        console.log("Mascota: ".concat(this.nombre));
-        console.log("Especie: ".concat(this.especie));
-        console.log("ID del due\u00F1o: ".concat(this.idCliente));
-    };
-    return Paciente;
-}());
+    mostrarPaciente() {
+        console.log(`Mascota: ${this.nombre}`);
+        console.log(`Especie: ${this.especie}`);
+        console.log(`ID del dueño: ${this.idCliente}`);
+    }
+}
 exports.Paciente = Paciente;

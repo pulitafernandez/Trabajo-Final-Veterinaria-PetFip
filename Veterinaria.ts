@@ -100,7 +100,6 @@ export class Veterinaria {
             this.pacientes.push(paciente);
             console.log("Mascota agregada correctamente.");
         } else {
-            console.log("estoy en agregaR PACIENTE"+cliente);
             console.log("Cliente no encontrado.");
         }
     }
@@ -143,7 +142,7 @@ public existePaciente(nombre: string, especie: string, idCliente: number): boole
             console.log("No hay clientes registrados.");
         } else {
             this.clientes.forEach(cliente => {
-                console.log(cliente.getDatosCliente()); // Mostrar cliente con mascotas
+                console.log(cliente.getDatosCliente());
             });
         }
     }
