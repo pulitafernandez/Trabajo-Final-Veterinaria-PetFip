@@ -741,8 +741,8 @@ private eliminarPaciente(veterinaria: Veterinaria): void {
     
                 if (proveedor) {
                     console.log(`Proveedor seleccionado: ${proveedor.getNombreProveedor()}`);
-                    this.rl.question('¿Está seguro de eliminar este proveedor? (s/n): ', (respuesta) => {
-                        if (respuesta.toLowerCase() === 's') {
+                    this.rl.question('¿Está seguro de eliminar este proveedor? (Si/No): ', (respuesta) => {
+                        if (respuesta.toLowerCase() === 'si') {
                             const eliminado = this.redVet1.eliminarProveedor(Number(idProveedor));
                             if (eliminado) {
                                 console.log("Proveedor eliminado.");

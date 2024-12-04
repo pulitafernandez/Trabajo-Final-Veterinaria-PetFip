@@ -721,8 +721,8 @@ var Menu = /** @class */ (function () {
                 var proveedor = proveedores.find(function (prov) { return prov.getIdProveedor() === Number(idProveedor); });
                 if (proveedor) {
                     console.log("Proveedor seleccionado: ".concat(proveedor.getNombreProveedor()));
-                    _this.rl.question('¿Está seguro de eliminar este proveedor? (s/n): ', function (respuesta) {
-                        if (respuesta.toLowerCase() === 's') {
+                    _this.rl.question('¿Está seguro de eliminar este proveedor? (Si/No): ', function (respuesta) {
+                        if (respuesta.toLowerCase() === 'si') {
                             var eliminado = _this.redVet1.eliminarProveedor(Number(idProveedor));
                             if (eliminado) {
                                 console.log("Proveedor eliminado.");
